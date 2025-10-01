@@ -6,6 +6,8 @@ services:
       context: ../
       dockerfile: docker/Dockerfile
     container_name: fuelphp-app
+    env_file:
+      - ./.env
     ports:
       - "80:80"
     volumes:
@@ -18,8 +20,10 @@ services:
       context: ../
       dockerfile: docker/db/Dockerfile
     environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: mydb
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
     ports:
       - "3306:3306"
     networks:

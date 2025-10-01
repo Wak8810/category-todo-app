@@ -8,9 +8,9 @@ return array(
 		'type'        => 'mysqli',
 		'connection'  => array(
 			'hostname'   => 'db',
-			'database'   => 'fuelphp',
-			'username'   => 'root',
-			'password'   => 'root',
+			'database'   => getenv('DB_DATABASE'),
+			'username'   => getenv('DB_USER'),
+			'password'   => getenv('DB_PASSWORD'),
 			'persistent' => false,
 		),
 		'identifier'   => '`',

@@ -6,6 +6,8 @@ services:
       context: ../
       dockerfile: docker/Dockerfile
     container_name: fuelphp-app
+    depends_on:
+      - db
     env_file:
       - ./.env
     ports:

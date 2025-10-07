@@ -4,7 +4,10 @@ return array(
   array(
     'app' => 
     array(
-      'default' => 0,
+      'default' => 
+      array(
+        0 => '011_add_deleted_at_to_users',
+      ),
     ),
     'module' => 
     array(

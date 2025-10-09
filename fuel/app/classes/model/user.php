@@ -14,8 +14,23 @@ class User extends \Fuel\Core\Model
    */
   public static function get_by_email($email)
   {
-    return DB::select()->from('users')->where('email', $email)->execute()->current();
+    return DB::select()->from('users')->where('email', '=', $email)->execute()->current();
   }
+
+  /**
+   * ユーザー名からユーザー情報を取得
+   *
+   * ユーザー名重複チェックに使用
+   * 
+   * @param string $username ユーザー名
+   * @return array|null ユーザー情報
+   */
+  public static function get_by_username($username)
+  {
+    return DB::select()->from('users')->where('username', '=', $username)->execute()->current();
+  }
+
+
   /**
    * 新規ユーザーを登録
    *

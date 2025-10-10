@@ -1,5 +1,6 @@
 <?php
 
+use Auth\Auth;
 use Fuel\Core\Session;
 use Fuel\Core\Security;
 use Fuel\Core\Response;
@@ -14,7 +15,7 @@ class Controller_Register extends \Fuel\Core\Controller
    */
   public function action_index()
   {
-    if (Session::get('user_id'))
+    if (Auth::check())
     {
       Response::redirect('/');
     }
@@ -26,7 +27,7 @@ class Controller_Register extends \Fuel\Core\Controller
    */
   public function action_register()
   {
-    if (Session::get('user_id'))
+    if (Auth::check())
     {
       Response::redirect('/');
     }

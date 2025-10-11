@@ -22,9 +22,7 @@ $success = Session::get_flash('success');
 </head>
 <body class="d-flex flex-column min-h-100vh">
 
-  <header class="p-y-15 p-x-20 bg-green-light font-size-lg font-weight-bold text-dark-gray">
-    TODOAPP
-  </header>
+  <?php echo View::forge('partials/header'); ?>
 
   <div class="flex-grow-1 d-flex justify-content-center align-items-center p-20">
     <div class="w-100 max-w-480 bg-white p-50 rounded-8 shadow-md border border-gray-medium">

@@ -63,6 +63,7 @@ class Controller_Login extends Controller
       {
         //念のため
         Session::rotate();
+        Session::set('username', Auth::get_screen_name());
         
         Response::redirect('/');
       }

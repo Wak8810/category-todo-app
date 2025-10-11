@@ -23,12 +23,6 @@ class Controller_Dashboard extends Controller
    */
   public function action_index()
   {
-    $data = array();
-
-    // ログイン中のユーザー情報を取得
-    $data['username'] = Auth::get('username');
-    $data['email'] = Auth::get('email');
-
-    return View::forge('dashboard/index', $data);
+    return View::forge('dashboard/index');
   }
 }

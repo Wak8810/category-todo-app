@@ -10,36 +10,33 @@ use Auth\Auth;
 
 class Controller_Login extends Controller
 {
+  public function before()
+  {
+    parent::before();
+    
+    //ログイン済みならルートページに
+    if (Auth::check())
+    {
+      Response::redirect('/');
+    }
+  }
+
   /**
    * ログインフォームを表示
    */
   public function action_index()
   {
-    if (Auth::check())
-    {
-      Response::redirect('/');
-    }
-    return View::forge('login/index');
+    return View::forge('auth/login/index');
   }
 
   /**
    * ログイン処理
    */
-  public function action_login()
+  public function post_login()
   {
-    if (Auth::check())
-    {
-      Response::redirect('/');
-    }
-
-    if (Input::method() !== 'POST')
-    {
-      Response::redirect('login');
-    }
-
     if (!Security::check_token())
     {
-      $view = View::forge('login/index');
+      $view = View::forge('auth/login/index');
       $view->set('error', 'ページの有効期限が切れました。もう一度お試しください。');
       return $view;
     }
@@ -73,7 +70,7 @@ class Controller_Login extends Controller
       }
     }
 
-    $view = View::forge('login/index');
+    $view = View::forge('auth/login/index');
     $view->set('errors', $errors);
     return $view;
   }

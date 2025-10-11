@@ -32,13 +32,8 @@ class Controller_Register extends \Fuel\Core\Controller
   /**
    * ユーザー登録処理
    */
-  public function action_register()
+  public function post_register()
   {
-    if (Input::method() !== 'POST')
-    {
-      Response::redirect('register');
-    }
-
     if (!Security::check_token())
     {
       $view = View::forge('register/index');

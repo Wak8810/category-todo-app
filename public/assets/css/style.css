@@ -107,3 +107,18 @@ body, html {
   background-color: #f2dede;
   border: 1px solid #ebccd1;
 }
+
+/* --- Custom Form/Button Styles --- */
+
+/* フォームをインライン表示にするためのクラス */
+.form-as-inline {
+  display: inline;
+}
+
+/* ボタンをリンクのように見せるためのクラス */
+.btn-as-link {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}

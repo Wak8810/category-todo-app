@@ -10,15 +10,22 @@ use Model\User;
 
 class Controller_Register extends \Fuel\Core\Controller
 {
+  public function before()
+  {
+    parent::before();
+    
+    //ログイン済みならルートページに
+    if (Auth::check())
+    {
+      Response::redirect('/');
+    }
+  }
+
   /**
    * ユーザー登録フォームを表示
    */
   public function action_index()
   {
-    if (Auth::check())
-    {
-      Response::redirect('/');
-    }
     return View::forge('register/index');
   }
 
@@ -27,11 +34,6 @@ class Controller_Register extends \Fuel\Core\Controller
    */
   public function action_register()
   {
-    if (Auth::check())
-    {
-      Response::redirect('/');
-    }
-
     if (Input::method() !== 'POST')
     {
       Response::redirect('register');

@@ -10,15 +10,22 @@ use Auth\Auth;
 
 class Controller_Login extends Controller
 {
+  public function before()
+  {
+    parent::before();
+    
+    //ログイン済みならルートページに
+    if (Auth::check())
+    {
+      Response::redirect('/');
+    }
+  }
+
   /**
    * ログインフォームを表示
    */
   public function action_index()
   {
-    if (Auth::check())
-    {
-      Response::redirect('/');
-    }
     return View::forge('login/index');
   }
 
@@ -27,11 +34,6 @@ class Controller_Login extends Controller
    */
   public function action_login()
   {
-    if (Auth::check())
-    {
-      Response::redirect('/');
-    }
-
     if (Input::method() !== 'POST')
     {
       Response::redirect('login');

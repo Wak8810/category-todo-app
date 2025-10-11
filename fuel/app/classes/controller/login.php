@@ -26,7 +26,7 @@ class Controller_Login extends Controller
    */
   public function action_index()
   {
-    return View::forge('login/index');
+    return View::forge('auth/login/index');
   }
 
   /**
@@ -36,7 +36,7 @@ class Controller_Login extends Controller
   {
     if (!Security::check_token())
     {
-      $view = View::forge('login/index');
+      $view = View::forge('auth/login/index');
       $view->set('error', 'ページの有効期限が切れました。もう一度お試しください。');
       return $view;
     }
@@ -70,7 +70,7 @@ class Controller_Login extends Controller
       }
     }
 
-    $view = View::forge('login/index');
+    $view = View::forge('auth/login/index');
     $view->set('errors', $errors);
     return $view;
   }

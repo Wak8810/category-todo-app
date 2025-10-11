@@ -26,7 +26,7 @@ class Controller_Register extends \Fuel\Core\Controller
    */
   public function action_index()
   {
-    return View::forge('register/index');
+    return View::forge('auth/register/index');
   }
 
   /**
@@ -36,7 +36,7 @@ class Controller_Register extends \Fuel\Core\Controller
   {
     if (!Security::check_token())
     {
-      $view = View::forge('register/index');
+      $view = View::forge('auth/register/index');
       $view->set('error', 'ページの有効期限が切れました。もう一度やり直してください。');
       return $view;
     }
@@ -109,7 +109,7 @@ class Controller_Register extends \Fuel\Core\Controller
       }
       else //念のため
       {
-        $view = View::forge('register/index');
+        $view = View::forge('auth/register/index');
         $view->set('error', '予期せぬエラーで登録に失敗しました。');
         return $view;
       }
@@ -117,7 +117,7 @@ class Controller_Register extends \Fuel\Core\Controller
     else
     {
       // バリデーション失敗：エラーと入力値をビューに渡す
-      $view = View::forge('register/index');
+      $view = View::forge('auth/register/index');
       $view->set('errors', $errors);
       return $view;
     }

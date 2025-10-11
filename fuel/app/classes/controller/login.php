@@ -32,13 +32,8 @@ class Controller_Login extends Controller
   /**
    * ログイン処理
    */
-  public function action_login()
+  public function post_login()
   {
-    if (Input::method() !== 'POST')
-    {
-      Response::redirect('login');
-    }
-
     if (!Security::check_token())
     {
       $view = View::forge('login/index');

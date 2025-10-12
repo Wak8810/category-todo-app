@@ -7,5 +7,7 @@ return array(
 
 	'login' => array(array('GET', new Route('login/index')), array('POST', new Route('login/login'))),
 	
-	'hello(/:name)?' => array('welcome/hello', 'name' => 'hello'),
-);
+	    'hello(/:name)?' => array('welcome/hello', 'name' => 'hello'),
+	
+	    'categories' => 'categories',
+	);

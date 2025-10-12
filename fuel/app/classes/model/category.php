@@ -100,4 +100,20 @@ class Category extends \Fuel\Core\Model
       ->and_where('deleted_at', 'is', null)
       ->execute()->current();
   }
+
+  /**
+   * 名前とユーザーIDでカテゴリを1件取得する
+   * nameの重複チェック用
+   * @param string $name
+   * @param int $user_id
+   * @return mixed
+   */
+  public static function find_by_name_and_user_id($name, $user_id)
+  {
+    return DB::select()->from('categories')
+      ->where('name', $name)
+      ->and_where('user_id', $user_id)
+      ->and_where('deleted_at', 'is', null)
+      ->execute()->current();
+  }
 }

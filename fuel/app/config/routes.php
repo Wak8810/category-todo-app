@@ -8,6 +8,10 @@ return array(
 	'login' => array(array('GET', new Route('login/index')), array('POST', new Route('login/login'))),
 	
 	    'hello(/:name)?' => array('welcome/hello', 'name' => 'hello'),
-	
-	    'categories' => 'categories',
+
+	'categories'            => 'categories/index',
+	'categories/create'       => 'categories/create',
+	'categories/edit/(:id)'   => 'categories/edit/$1',
+	'categories/update/(:id)' => 'categories/update/$1',
+	'categories/delete/(:id)' => 'categories/delete/$1',
 	);

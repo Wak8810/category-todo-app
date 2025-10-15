@@ -154,3 +154,26 @@ body, html {
   cursor: pointer;
   padding: 0;
 }
+
+/* --- Sizing --- */
+.max-w-600 { max-width: 600px; }
+
+/* --- Spacing --- */
+.m-x-auto { margin-left: auto; margin-right: auto; }
+.pt-20 { padding-top: 20px; }
+.p-x-15 { padding-left: 15px; padding-right: 15px; }
+
+/* --- Buttons --- */
+.btn-default {
+  background-color: #6c757d;
+  color: white;
+}
+.btn-danger {
+  background-color: #dc3545;
+  color: white;
+}
+
+/* --- Forms --- */
+.resize-vertical {
+  resize: vertical;
+}

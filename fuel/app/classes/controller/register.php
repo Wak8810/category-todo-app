@@ -52,6 +52,10 @@ class Controller_Register extends \Fuel\Core\Controller
     {
       $errors['username'] = 'ユーザー名は必須です。';
     }
+    elseif (!preg_match('/^[\x{3041}-\x{3093}\x{30A1}-\x{30F6}\x{4E00}-\x{9FA5}a-zA-Z0-9_-\x{30FC}]+$/u', $username))
+    {
+      $errors['username'] = 'ユーザー名に使用できない文字が含まれています。日本語、英数字、ハイフン、アンダースコアのみ使用できます。';
+    }
     elseif (mb_strlen($username) < 3)
     {
       $errors['username'] = 'ユーザー名は3文字以上で入力してください。';

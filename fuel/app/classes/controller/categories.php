@@ -64,6 +64,10 @@ class Controller_Categories extends Controller
     {
       $errors['name'] = 'カテゴリー名は必須です。';
     }
+    elseif (!preg_match('/^[\x{3041}-\x{3093}\x{30A1}-\x{30F6}\x{4E00}-\x{9FA5}a-zA-Z0-9_-\x{30FC}]+$/u', $name))
+    {
+      $errors['name'] = 'カテゴリー名に使用できない文字が含まれています。日本語、英数字、ハイフン、アンダースコアのみ使用できます。';
+    }
     elseif (mb_strlen($name) > 255)
     {
       $errors['name'] = 'カテゴリー名は255文字以内で入力してください。';
@@ -121,6 +125,10 @@ class Controller_Categories extends Controller
     if (empty($name))
     {
       $errors['name'] = 'カテゴリー名は必須です。';
+    }
+    elseif (!preg_match('/^[\x{3041}-\x{3093}\x{30A1}-\x{30F6}\x{4E00}-\x{9FA5}a-zA-Z0-9_-\x{30FC}]+$/u', $name))
+    {
+      $errors['name'] = 'カテゴリー名に使用できない文字が含まれています。日本語、英数字、ハイフン、アンダースコアのみ使用できます。';
     }
     elseif (mb_strlen($name) > 255)
     {

@@ -10,6 +10,10 @@ function AppViewModel() {
   self.passwordConfirm = ko.observable('');
 
   self.usernameError = ko.computed(function() {
+    const allowedCharsRegex = /^[\u3041-\u3093\u30A1-\u30F6\u4E00-\u9FA5a-zA-Z0-9_-\u30FC]+$/u;
+    if (self.username().length > 0 && !allowedCharsRegex.test(self.username())) {
+      return 'ユーザー名に使用できない文字が含まれています。日本語、英数字、ハイフン、アンダースコアのみ使用できます。';
+    }
     if (self.username().length > 0 && self.username().length < 3) {
       return 'ユーザー名は3文字以上で入力してください。';
     }

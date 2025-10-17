@@ -26,7 +26,9 @@ class Controller_Register extends \Fuel\Core\Controller
    */
   public function action_index()
   {
-    return View::forge('auth/register/index');
+    $view = View::forge('auth/register/index');
+    $view->set('form_inputs', Session::get_flash('form_inputs', []));
+    return $view;
   }
 
   /**
@@ -36,9 +38,8 @@ class Controller_Register extends \Fuel\Core\Controller
   {
     if (!Security::check_token())
     {
-      $view = View::forge('auth/register/index');
-      $view->set('error', 'ページの有効期限が切れました。もう一度やり直してください。');
-      return $view;
+      Session::set_flash('error', 'ページの有効期限が切れました。もう一度やり直してください。');
+      Response::redirect('register');
     }
 
     $errors = array();
@@ -109,21 +110,20 @@ class Controller_Register extends \Fuel\Core\Controller
       {
         Session::set_flash('success', 'ユーザー登録完了');
         Response::redirect('login');
-        return;
+        
       }
       else //念のため
       {
-        $view = View::forge('auth/register/index');
-        $view->set('error', '予期せぬエラーで登録に失敗しました。');
-        return $view;
+        Session::set_flash('error', '予期せぬエラーで登録に失敗しました。');
+        Response::redirect('register');
       }
     }
     else
     {
-      // バリデーション失敗：エラーと入力値をビューに渡す
-      $view = View::forge('auth/register/index');
-      $view->set('errors', $errors);
-      return $view;
+      // バリデーション失敗：エラーと入力値をフラッシュセッションに保存してリダイレクト
+      Session::set_flash('errors', $errors);
+      Session::set_flash('form_inputs', Input::post());
+      Response::redirect('register');
     }
   }
 }

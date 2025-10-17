@@ -1,12 +1,14 @@
-function CategoryIndexViewModel() {
+function CategoryIndexViewModel(form) {
   let self = this;
 
-  self.name = ko.observable('');
-  self.colorCode = ko.observable('#000000');
+  const initialName = form.getAttribute('data-initial-name') || '';
+  const initialColorCode = form.getAttribute('data-initial-color-code') || '#000000';
+
+  self.name = ko.observable(initialName);
+  self.colorCode = ko.observable(initialColorCode);
 
   self.nameError = ko.computed(function() {
     if (self.name().length === 0) {
-      // 初期状態ではエラーを表示しない
       return null;
     }
     if (self.name().length > 255) {
@@ -34,6 +36,6 @@ function CategoryIndexViewModel() {
 document.addEventListener('DOMContentLoaded', function() {
   let createForm = document.getElementById('category-create-form');
   if(createForm) {
-    ko.applyBindings(new CategoryIndexViewModel(), createForm);
+    ko.applyBindings(new CategoryIndexViewModel(createForm), createForm);
   }
 });

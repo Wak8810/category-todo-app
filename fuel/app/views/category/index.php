@@ -1,8 +1,9 @@
 <?php
-use Fuel\Core\Session;
+use Fuel\Core\Arr;
 use Fuel\Core\Asset;
 use Fuel\Core\Uri;
 use Fuel\Core\Form;
+use Fuel\Core\View;
 ?>
 <!DOCTYPE html>
 <html lang="ja">
@@ -25,40 +26,37 @@ use Fuel\Core\Form;
     </div>
     <div class="flex-grow-1">
       <div class="w-100p bg-white p-50 rounded-8 shadow-md border border-gray-medium">
-        <?php if (Session::get_flash('success')) : ?>
-          <div class="alert-success p-15 rounded-4 mb-20">
-            <?php echo Session::get_flash('success'); ?>
-          </div>
-        <?php endif; ?>
-        <?php if (Session::get_flash('error')) : ?>
-          <div class="alert-danger p-15 rounded-4 mb-20">
-            <?php echo Session::get_flash('error'); ?>
-          </div>
-        <?php endif; ?>
+        <?php echo View::forge('partials/flash'); ?>
 
         <div class="mb-40">
           <h3 class="font-size-lg font-weight-bold mb-20">新規カテゴリー作成</h3>
-          <form id="category-create-form" action="<?php echo Uri::create('categories/create'); ?>" method="POST" class="d-flex align-items-end">
+          <?php
+            $inputs = isset($form_inputs) ? $form_inputs : [];
+          ?>
+          <form id="category-create-form" action="<?php echo Uri::create('categories/create'); ?>" method="POST" class="d-flex align-items-end"
+                data-initial-name="<?php echo e(Arr::get($inputs, 'name', '')); ?>"
+                data-initial-color-code="<?php echo e(Arr::get($inputs, 'color_code', '#000000')); ?>">
             <?php echo Form::csrf(); ?>
             <div class="mr-12">
               <label for="name" class="d-block mb-8 font-weight-600">カテゴリー名</label>
-              <input type="text" name="name" id="name" class="p-y-10 p-x-20 rounded-6 border border-gray-medium" required data-bind="value: name, valueUpdate: 'afterkeydown'">
+              <input type="text" name="name" id="name" class="p-y-10 p-x-20 rounded-6 border border-gray-medium" required 
+                     value="<?php echo e(Arr::get($inputs, 'name', '')); ?>"
+                     data-bind="value: name, valueUpdate: 'afterkeydown'">
               <div class="font-size-xs mt-5 text-red min-h-1-2em" data-bind="visible: nameError, text: nameError"></div>
-              <?php if (isset($errors['name'])) : ?><p class="text-red font-size-sm mt-5 mb-0"><?php echo $errors['name']; ?></p><?php endif; ?>
             </div>
             <div class="mr-12">
               <label for="color_code" class="d-block mb-8 font-weight-600">カラー</label>
               <div class="d-flex align-items-center">
-                <input type="color" name="color_code" id="color_code" class="rounded-6 border border-gray-medium" style="height: 42px; width: 100px;" data-bind="value: colorCode">
+                <input type="color" name="color_code" id="color_code" class="rounded-6 border border-gray-medium" style="height: 42px; width: 100px;"
+                       value="<?php echo e(Fuel\Core\Arr::get($inputs, 'color_code', '#000000')); ?>"
+                       data-bind="value: colorCode">
               </div>
               <div class="font-size-xs mt-5 text-red min-h-1-2em" data-bind="visible: colorCodeError, text: colorCodeError"></div>
-              <?php if (isset($errors['color_code'])) : ?><p class="text-red font-size-sm mt-5 mb-0"><?php echo $errors['color_code']; ?></p><?php endif; ?>
             </div>
             <div>
               <button type="submit" class="p-y-10 p-x-25 rounded-6 border-none bg-blue text-white font-weight-bold cursor-pointer" style="height: 42px;" data-bind="enable: isFormValid">作成</button>
             </div>
           </form>
-          <?php if (isset($errors['create'])) : ?><p class="text-red font-size-sm mt-10"><?php echo $errors['create']; ?></p><?php endif; ?>
         </div>
 
         <hr class="mb-40">

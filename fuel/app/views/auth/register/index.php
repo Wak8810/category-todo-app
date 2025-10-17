@@ -8,8 +8,6 @@ use Fuel\Core\Asset;
 
 $errors = isset($errors) ? $errors : array();
 $inputs = isset($form_inputs) ? $form_inputs : array();
-$error   = isset($error) ? $error : Session::get_flash('error');
-$success = Session::get_flash('success');
 ?>
 <!DOCTYPE html>
 <html lang="ja">
@@ -28,12 +26,7 @@ $success = Session::get_flash('success');
     <div class="w-100p max-w-480 bg-white p-50 rounded-8 shadow-md border border-gray-medium">
       <h2 class="text-left font-size-xl mb-40 text-dark-gray font-weight-600">アカウント登録</h2>
 
-      <?php if ($error): ?>
-        <div class="alert-danger p-15 mb-20 rounded-4"><p><?php echo $error; ?></p></div>
-      <?php endif; ?>
-      <?php if ($success): ?>
-        <div class="alert-success p-15 mb-20 rounded-4"><p><?php echo $success; ?></p></div>
-      <?php endif; ?>
+      <?php echo View::forge('partials/flash'); ?>
 
       <form id="register-form" action="<?php echo Uri::create('register/register'); ?>" method="POST"
             data-initial-username="<?php echo e(Arr::get($inputs, 'username', '')); ?>"
@@ -74,15 +67,7 @@ $success = Session::get_flash('success');
           <div class="font-size-xs mt-5 text-red min-h-1-2em" data-bind="visible: passwordConfirmError, text: passwordConfirmError"></div>
         </div>
 
-        <?php if (!empty($errors)): ?>
-          <div class="alert-danger p-15 mb-20 rounded-4">
-            <ul>
-            <?php foreach ($errors as $error_message): ?>
-              <li><?php echo $error_message; ?></li>
-            <?php endforeach; ?>
-            </ul>
-          </div>
-        <?php endif; ?>
+        
 
         <div class="d-flex justify-content-between mt-30">
           <button type="submit" class="btn-primary w-48p p-y-15 p-x-20 rounded-25 cursor-pointer font-size-base font-weight-600 text-center text-decoration-none bg-gray-extra-light text-dark-gray" data-bind="enable: isFormValid">登録</button>

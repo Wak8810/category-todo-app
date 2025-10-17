@@ -31,6 +31,7 @@ class Controller_Categories extends Controller
     $categories = Category::find_by_user_id($this->user_id);
     $view = View::forge('category/index');
     $view->set('categories', $categories);
+    $view->set('form_inputs', Session::get_flash('form_inputs', []));
     return $view;
   }
 
@@ -42,12 +43,13 @@ class Controller_Categories extends Controller
     $category = Category::find_one_by_id_and_user_id($id, $this->user_id);
 
     if (!$category) {
-        Session::set_flash('error', '指定されたカテゴリーは見つかりません。');
-        Response::redirect('categories');
+      Session::set_flash('error', '指定されたカテゴリーは見つかりません。');
+      Response::redirect('categories');
     }
 
     $view = View::forge('category/edit');
     $view->set('category', $category);
+    $view->set('form_inputs', Session::get_flash('form_inputs', []));
     return $view;
   }
 
@@ -100,9 +102,9 @@ class Controller_Categories extends Controller
       }
     }
     
-    $view = View::forge('category/index');
-    $view->set('errors', $errors);
-    return $view;
+    Session::set_flash('errors', $errors);
+    Session::set_flash('form_inputs', Input::post());
+    Response::redirect('categories');
   }
 
   /**
@@ -166,10 +168,9 @@ class Controller_Categories extends Controller
       }
     }
 
-    $view = View::forge('category/edit');
-    $view->set('errors', $errors);
-    $view->set('category', $category);
-    return $view;
+    Session::set_flash('errors', $errors);
+    Session::set_flash('form_inputs', Input::post());
+    Response::redirect('categories/edit/' . $id);
   }
 
   /**

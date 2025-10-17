@@ -8,8 +8,6 @@ use Fuel\Core\Asset;
 
 $errors = isset($errors) ? $errors : array();
 $inputs = isset($form_inputs) ? $form_inputs : array();
-$error = isset($error) ? $error : Session::get_flash('error');
-$success = Session::get_flash('success');
 ?>
 <!DOCTYPE html>
 <html lang="ja">
@@ -28,16 +26,7 @@ $success = Session::get_flash('success');
     <div class="w-100p max-w-480 bg-white p-50 rounded-8 shadow-md border border-gray-medium">
       <h2 class="text-left font-size-xl mb-40 text-dark-gray font-weight-600">ログイン</h2>
 
-      <?php if ($error) : ?>
-        <div class="alert-danger p-15 mb-20 rounded-4"><?php echo $error; ?></div>
-      <?php endif; ?>
-      <?php if ($success) : ?>
-        <div class="alert-success p-15 mb-20 rounded-4"><?php echo $success; ?></div>
-      <?php endif; ?>
-      <?php if (isset($errors['login'])) : ?>
-        <div class="alert-danger p-15 mb-20 rounded-4"><?php echo $errors['login']; ?></div>
-      <?php endif; ?>
-
+      <?php echo View::forge('partials/flash'); ?>
       <form id="login-form" action="<?php echo Uri::create('login/login'); ?>" method="POST"
             data-initial-email="<?php echo e(Arr::get($inputs, 'email', '')); ?>">
         <?php echo Form::csrf(); ?>
@@ -62,18 +51,7 @@ $success = Session::get_flash('success');
           <a href="<?php echo Uri::create('register'); ?>" class="text-blue text-decoration-none">アカウント登録はこちら</a>
         </div>
         
-        <?php
-        $server_errors = array_filter($errors, function ($key) { return $key !== 'login'; }, ARRAY_FILTER_USE_KEY);
-        if (!empty($server_errors)) :
-        ?>
-          <div class="alert-danger p-15 mb-20 rounded-4">
-            <ul>
-            <?php foreach ($server_errors as $error_message) : ?>
-              <li><?php echo $error_message; ?></li>
-            <?php endforeach; ?>
-            </ul>
-          </div>
-        <?php endif; ?>
+        
 
         <div class="d-flex justify-content-center mt-10">
           <button type="submit" class="btn-primary w-80p p-y-15 p-x-20 rounded-25 cursor-pointer font-size-base font-weight-600 text-center text-decoration-none bg-gray-extra-light text-dark-gray" data-bind="enable: isFormValid">ログイン</button>

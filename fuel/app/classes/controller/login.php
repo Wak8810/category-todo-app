@@ -1,12 +1,12 @@
 <?php
 
+use Auth\Auth;
 use Fuel\Core\Controller;
-use Fuel\Core\View;
-use Fuel\Core\Response;
 use Fuel\Core\Input;
+use Fuel\Core\Response;
 use Fuel\Core\Security;
 use Fuel\Core\Session;
-use Auth\Auth;
+use Fuel\Core\View;
 
 class Controller_Login extends Controller
 {
@@ -42,7 +42,7 @@ class Controller_Login extends Controller
       Response::redirect('login');
     }
 
-    $errors = array();
+    $errors = [];
     $email = Input::post('email');
     $password = Input::post('password');
 

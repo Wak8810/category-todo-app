@@ -14,7 +14,7 @@ class User extends \Fuel\Core\Model
    */
   public static function get_by_email($email)
   {
-    return DB::select()->from('users')->where('email', '=', $email)->execute()->current();
+    return DB::select()->from('users')->where('email', $email)->execute()->current();
   }
 
   /**
@@ -27,7 +27,7 @@ class User extends \Fuel\Core\Model
    */
   public static function get_by_username($username)
   {
-    return DB::select()->from('users')->where('username', '=', $username)->execute()->current();
+    return DB::select()->from('users')->where('username', $username)->execute()->current();
   }
 
 

@@ -1,10 +1,10 @@
 <?php
 
 use Auth\Auth;
-use Fuel\Core\Session;
-use Fuel\Core\Security;
-use Fuel\Core\Response;
 use Fuel\Core\Input;
+use Fuel\Core\Response;
+use Fuel\Core\Security;
+use Fuel\Core\Session;
 use Fuel\Core\View;
 use Model\User;
 
@@ -42,7 +42,7 @@ class Controller_Register extends \Fuel\Core\Controller
       Response::redirect('register');
     }
 
-    $errors = array();
+    $errors = [];
     $username = Input::post('username');
     $email = Input::post('email');
     $password = Input::post('password');

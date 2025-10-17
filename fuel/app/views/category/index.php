@@ -1,8 +1,8 @@
 <?php
 use Fuel\Core\Arr;
 use Fuel\Core\Asset;
-use Fuel\Core\Uri;
 use Fuel\Core\Form;
+use Fuel\Core\Uri;
 use Fuel\Core\View;
 ?>
 <!DOCTYPE html>
@@ -48,7 +48,7 @@ use Fuel\Core\View;
               <label for="color_code" class="d-block mb-8 font-weight-600">カラー</label>
               <div class="d-flex align-items-center">
                 <input type="color" name="color_code" id="color_code" class="rounded-6 border border-gray-medium" style="height: 42px; width: 100px;"
-                       value="<?php echo e(Fuel\Core\Arr::get($inputs, 'color_code', '#000000')); ?>"
+                       value="<?php echo e(Arr::get($inputs, 'color_code', '#000000')); ?>"
                        data-bind="value: colorCode">
               </div>
               <div class="font-size-xs mt-5 text-red min-h-1-2em" data-bind="visible: colorCodeError, text: colorCodeError"></div>
@@ -84,7 +84,7 @@ use Fuel\Core\View;
                     </td>
                     <td class="p-y-10 text-center">
                       <a href="<?php echo Uri::create('categories/edit/' . $category['id']); ?>" class="d-inline-block p-y-10 p-x-20 rounded-6 border border-gray-light bg-white text-blue text-decoration-none mr-12">編集</a>
-                      <form action="<?php echo Uri::create('categories/delete/' . $category['id']); ?>" method="POST" class="form-as-inline">
+                      <form action="<?php echo Uri::create('categories/delete/' . $category['id']); ?>" method="POST" class="d-inline">
                         <?php echo Form::csrf(); ?>
                         <button type="submit" class="p-y-10 p-x-20 rounded-6 border border-red-light bg-red-light text-red-dark cursor-pointer" onclick="return confirm('本当に削除しますか？この操作は元に戻せません。');">削除</button>
                       </form>

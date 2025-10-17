@@ -1,13 +1,11 @@
 <?php
 
-use Fuel\Core\Session;
-use Fuel\Core\Uri;
-use Fuel\Core\Form;
 use Fuel\Core\Arr;
 use Fuel\Core\Asset;
+use Fuel\Core\Form;
+use Fuel\Core\Uri;
+use Fuel\Core\View;
 
-$errors = isset($errors) ? $errors : array();
-$inputs = isset($form_inputs) ? $form_inputs : array();
 ?>
 <!DOCTYPE html>
 <html lang="ja">
@@ -21,6 +19,10 @@ $inputs = isset($form_inputs) ? $form_inputs : array();
 <body class="d-flex flex-column min-h-100vh">
 
   <?php echo View::forge('partials/header'); ?>
+
+  <?php
+    $inputs = isset($form_inputs) ? $form_inputs : [];
+  ?>
 
   <div class="flex-grow-1 d-flex justify-content-center align-items-center p-20">
     <div class="w-100p max-w-480 bg-white p-50 rounded-8 shadow-md border border-gray-medium">
@@ -70,7 +72,7 @@ $inputs = isset($form_inputs) ? $form_inputs : array();
         
 
         <div class="d-flex justify-content-between mt-30">
-          <button type="submit" class="btn-primary w-48p p-y-15 p-x-20 rounded-25 cursor-pointer font-size-base font-weight-600 text-center text-decoration-none bg-gray-extra-light text-dark-gray" data-bind="enable: isFormValid">登録</button>
+          <button type="submit" class="w-48p p-y-15 p-x-20 rounded-25 cursor-pointer font-size-base font-weight-600 text-center text-decoration-none bg-blue text-white border-none" data-bind="enable: isFormValid">登録</button>
           <a href="<?php echo Uri::create('login'); ?>" class="w-48p p-y-15 p-x-20 rounded-25 cursor-pointer font-size-base font-weight-600 text-center text-decoration-none bg-gray-extra-light text-dark-gray border border-gray-light">戻る</a>
           </div>
       </form>

@@ -39,8 +39,8 @@ use Fuel\Core\View;
         </div>
 
         <div class="mt-30 text-center">
-          <button type="submit" class="p-y-10 p-x-15 text-decoration-none cursor-pointer font-size-base btn-primary rounded-4 border-none mr-12" data-bind="enable: isFormValid">更新</button>
-          <a href="/categories" class="p-y-10 p-x-15 text-decoration-none cursor-pointer font-size-base btn-default rounded-4">キャンセル</a>
+          <button type="submit" class="p-y-10 p-x-15 text-decoration-none cursor-pointer font-size-base rounded-4 border-none mr-12 bg-blue text-white" data-bind="enable: isFormValid">更新</button>
+          <a href="/categories" class="p-y-10 p-x-15 text-decoration-none cursor-pointer font-size-base rounded-4 bg-gray-dark text-white">キャンセル</a>
         </div>
       </form>
     </div>

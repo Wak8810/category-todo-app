@@ -26,7 +26,9 @@ class Controller_Login extends Controller
    */
   public function action_index()
   {
-    return View::forge('auth/login/index');
+    $view = View::forge('auth/login/index');
+    $view->set('form_inputs', Session::get_flash('form_inputs', []));
+    return $view;
   }
 
   /**
@@ -36,9 +38,8 @@ class Controller_Login extends Controller
   {
     if (!Security::check_token())
     {
-      $view = View::forge('auth/login/index');
-      $view->set('error', 'ページの有効期限が切れました。もう一度お試しください。');
-      return $view;
+      Session::set_flash('error', 'ページの有効期限が切れました。もう一度お試しください。');
+      Response::redirect('login');
     }
 
     $errors = array();
@@ -54,24 +55,19 @@ class Controller_Login extends Controller
       $errors['password'] = 'パスワードを入力してください。';
     }
 
-    if (empty($errors))
+    if (empty($errors) && Auth::login($email, $password))
     {
-      if (Auth::login($email, $password))
-      {
-        //念のため
-        Session::rotate();
-        Session::set('username', Auth::get_screen_name());
-        
-        Response::redirect('/');
-      }
-      else
-      {
-        $errors['login'] = 'メールアドレスまたはパスワードが違います。';
-      }
+      Session::rotate();
+      Session::set('username', Auth::get_screen_name());
+      Response::redirect('/');
     }
 
-    $view = View::forge('auth/login/index');
-    $view->set('errors', $errors);
-    return $view;
+    if (empty($errors)) {
+        $errors['login'] = 'メールアドレスまたはパスワードが違います。';
+    }
+
+    Session::set_flash('errors', $errors);
+    Session::set_flash('form_inputs', ['email' => $email]);
+    Response::redirect('login');
   }
 }

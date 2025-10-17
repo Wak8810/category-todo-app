@@ -1,11 +1,11 @@
 <?php
 
 use Auth\Auth;
-use Fuel\Core\Input;
 use Fuel\Core\Controller;
+use Fuel\Core\Input;
 use Fuel\Core\Response;
-use Fuel\Core\View;
 use Fuel\Core\Session;
+use Fuel\Core\View;
 use Model\Category;
 
 class Controller_Categories extends Controller
@@ -42,7 +42,8 @@ class Controller_Categories extends Controller
   {
     $category = Category::find_one_by_id_and_user_id($id, $this->user_id);
 
-    if (!$category) {
+    if (!$category)
+    {
       Session::set_flash('error', '指定されたカテゴリーは見つかりません。');
       Response::redirect('categories');
     }

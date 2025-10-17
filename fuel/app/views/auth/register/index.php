@@ -1,13 +1,11 @@
 <?php
 
-use Fuel\Core\Session;
-use Fuel\Core\Uri;
-use Fuel\Core\Form;
 use Fuel\Core\Arr;
 use Fuel\Core\Asset;
+use Fuel\Core\Form;
+use Fuel\Core\Uri;
+use Fuel\Core\View;
 
-$errors = isset($errors) ? $errors : array();
-$inputs = isset($form_inputs) ? $form_inputs : array();
 ?>
 <!DOCTYPE html>
 <html lang="ja">
@@ -21,6 +19,10 @@ $inputs = isset($form_inputs) ? $form_inputs : array();
 <body class="d-flex flex-column min-h-100vh">
 
   <?php echo View::forge('partials/header'); ?>
+
+  <?php
+    $inputs = isset($form_inputs) ? $form_inputs : [];
+  ?>
 
   <div class="flex-grow-1 d-flex justify-content-center align-items-center p-20">
     <div class="w-100p max-w-480 bg-white p-50 rounded-8 shadow-md border border-gray-medium">

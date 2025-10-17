@@ -1,8 +1,8 @@
 <?php
 use Fuel\Core\Arr;
 use Fuel\Core\Asset;
-use Fuel\Core\Uri;
 use Fuel\Core\Form;
+use Fuel\Core\Uri;
 use Fuel\Core\View;
 ?>
 <!DOCTYPE html>
@@ -48,7 +48,7 @@ use Fuel\Core\View;
               <label for="color_code" class="d-block mb-8 font-weight-600">カラー</label>
               <div class="d-flex align-items-center">
                 <input type="color" name="color_code" id="color_code" class="rounded-6 border border-gray-medium" style="height: 42px; width: 100px;"
-                       value="<?php echo e(Fuel\Core\Arr::get($inputs, 'color_code', '#000000')); ?>"
+                       value="<?php echo e(Arr::get($inputs, 'color_code', '#000000')); ?>"
                        data-bind="value: colorCode">
               </div>
               <div class="font-size-xs mt-5 text-red min-h-1-2em" data-bind="visible: colorCodeError, text: colorCodeError"></div>

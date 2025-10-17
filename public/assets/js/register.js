@@ -1,8 +1,8 @@
 function AppViewModel() {
-  var self = this;
-  var form = document.getElementById('register-form');
-  var initialUsername = form.getAttribute('data-initial-username') || '';
-  var initialEmail = form.getAttribute('data-initial-email') || '';
+  let self = this;
+  let form = document.getElementById('register-form');
+  let initialUsername = form.getAttribute('data-initial-username') || '';
+  let initialEmail = form.getAttribute('data-initial-email') || '';
 
   self.username = ko.observable(initialUsername);
   self.email = ko.observable(initialEmail);
@@ -21,7 +21,7 @@ function AppViewModel() {
   });
 
   self.emailError = ko.computed(function() {
-    var emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
+    let emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
     if (self.email().length > 0 && !emailRegex.test(self.email())) {
       return '有効なメールアドレスを入力してください。';
     }
@@ -51,7 +51,7 @@ function AppViewModel() {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-  var registerForm = document.getElementById('register-form');
+  let registerForm = document.getElementById('register-form');
   if(registerForm) {
     ko.applyBindings(new AppViewModel(), registerForm);
   }

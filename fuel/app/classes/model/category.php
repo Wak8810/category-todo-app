@@ -75,7 +75,7 @@ class Category extends \Fuel\Core\Model
    */
   public static function delete_category($id, $user_id)
   {
-    $query_data = array('deleted_at' => Date::forge()->format('mysql'));
+    $query_data = ['deleted_at' => Date::forge()->format('mysql')];
 
     $result = DB::update('categories')->set($query_data)
       ->where('id', $id)

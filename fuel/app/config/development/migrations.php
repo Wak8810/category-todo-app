@@ -8,6 +8,7 @@ return array(
       array(
         0 => '011_add_deleted_at_to_users',
         1 => '012_create_categories',
+        2 => '013_modify_categories',
       ),
     ),
     'module' => 

@@ -56,7 +56,7 @@ use Fuel\Core\View;
         
 
         <div class="d-flex justify-content-center mt-10">
-          <button type="submit" class="btn-primary w-80p p-y-15 p-x-20 rounded-25 cursor-pointer font-size-base font-weight-600 text-center text-decoration-none bg-gray-extra-light text-dark-gray" data-bind="enable: isFormValid">ログイン</button>
+          <button type="submit" class="w-80p p-y-15 p-x-20 rounded-25 cursor-pointer font-size-base font-weight-600 text-center text-decoration-none bg-blue text-white border-none" data-bind="enable: isFormValid">ログイン</button>
         </div>
       </form>
     </div>

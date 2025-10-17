@@ -72,7 +72,7 @@ use Fuel\Core\View;
         
 
         <div class="d-flex justify-content-between mt-30">
-          <button type="submit" class="btn-primary w-48p p-y-15 p-x-20 rounded-25 cursor-pointer font-size-base font-weight-600 text-center text-decoration-none bg-gray-extra-light text-dark-gray" data-bind="enable: isFormValid">登録</button>
+          <button type="submit" class="w-48p p-y-15 p-x-20 rounded-25 cursor-pointer font-size-base font-weight-600 text-center text-decoration-none bg-blue text-white border-none" data-bind="enable: isFormValid">登録</button>
           <a href="<?php echo Uri::create('login'); ?>" class="w-48p p-y-15 p-x-20 rounded-25 cursor-pointer font-size-base font-weight-600 text-center text-decoration-none bg-gray-extra-light text-dark-gray border border-gray-light">戻る</a>
           </div>
       </form>

@@ -27,7 +27,7 @@ use Fuel\Core\View;
     </div>
 
     <div class="flex-grow-1">
-      <div class="w-100p bg-white p-50 rounded-8 shadow-md border border-gray-medium mt-30">
+      <div class="w-100p bg-white p-50 rounded-8 shadow-md border border-gray-medium">
         <?php echo View::forge('partials/flash'); ?>
 
         <div class="mb-40">

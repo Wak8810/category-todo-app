@@ -25,7 +25,7 @@ class Controller_Tasks extends Controller
   }
 
   /**
-   * タスク一覧（Todo/Done）を表示します。
+   * タスク一覧（Todo/Done）を表示
    */
   public function action_index()
   {
@@ -57,7 +57,7 @@ class Controller_Tasks extends Controller
   }
 
   /**
-   * 特定のタスクの編集ページを表示します。
+   * 特定のタスクの編集ページを表示
    */
   public function action_edit($id = null)
   {
@@ -80,7 +80,7 @@ class Controller_Tasks extends Controller
   }
 
   /**
-   * 新しいタスクを作成します。
+   * 新しいタスクを作成
    */
   public function post_create()
   {
@@ -134,7 +134,7 @@ class Controller_Tasks extends Controller
   }
 
   /**
-   * 既存のタスクを更新します。
+   * 既存のタスクを更新
    */
   public function post_update($id = null)
   {
@@ -192,21 +192,7 @@ class Controller_Tasks extends Controller
   }
 
   /**
-   * タスクの完了状態を切り替えます。
-   */
-  public function post_toggle($id = null)
-  {
-    $task = Task::find_one_by_id_and_user_id($id, $this->user_id);
-    if ($task)
-    {
-      Task::toggle_completed($id, $this->user_id);
-    }
-    
-    Response::redirect('tasks');
-  }
-
-  /**
-   * タスクを削除します。
+   * タスクを削除
    */
   public function post_delete($id = null)
   {

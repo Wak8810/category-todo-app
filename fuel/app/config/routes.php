@@ -19,4 +19,6 @@ return array(
 	'tasks/update/(:id)'    => 'tasks/update/$1',
 	'tasks/delete/(:id)'    => 'tasks/delete/$1',
 	'tasks/toggle/(:id)'    => 'tasks/toggle/$1',
+
+	'api/tasks/toggle/(:id)' => 'api/tasks/toggle/$1',
 	);

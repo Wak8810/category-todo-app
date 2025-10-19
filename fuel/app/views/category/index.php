@@ -103,6 +103,6 @@ use Fuel\Core\View;
     </div>
 
   </div>
-  <?php echo Asset::js('category-index.js'); ?>
+  <?php echo Asset::js('index_category.js'); ?>
 </body>
 </html>

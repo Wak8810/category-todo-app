@@ -2,6 +2,7 @@
 use Fuel\Core\Arr;
 use Fuel\Core\Asset;
 use Fuel\Core\Form;
+use Fuel\Core\Input;
 use Fuel\Core\Uri;
 use Fuel\Core\View;
 ?>
@@ -20,10 +21,8 @@ use Fuel\Core\View;
 
   <div class="p-x-20">
     <div class="mt-30">
-      <a href="<?php echo Uri::create('tasks'); ?>" 
-        class="d-inline-block p-y-10 p-x-25 rounded-25 text-decoration-none text-dark-gray font-size-base font-weight-600 border bg-lime border-lime cursor-pointer">タスク一覧</a>
-      <a href="<?php echo Uri::create('categories'); ?>" 
-        class="d-inline-block p-y-10 p-x-25 rounded-25 text-decoration-none text-dark-gray font-size-base font-weight-600 border bg-white border-gray-light cursor-pointer">カテゴリー一覧</a>
+      <a href="<?php echo Uri::create('tasks'); ?>" class="d-inline-block p-y-10 p-x-25 rounded-25 text-decoration-none text-dark-gray font-size-base font-weight-600 border bg-lime border-lime cursor-pointer">タスク一覧</a>
+      <a href="<?php echo Uri::create('categories'); ?>" class="d-inline-block p-y-10 p-x-25 rounded-25 text-decoration-none text-dark-gray font-size-base font-weight-600 border bg-white border-gray-light cursor-pointer">カテゴリー一覧</a>
     </div>
 
     <div class="flex-grow-1">
@@ -68,39 +67,31 @@ use Fuel\Core\View;
           </form>
         </div>
 
-        <div class="d-flex">
-          <div class="w-1-2 mr-10">
-            <h3 class="font-size-lg font-weight-bold mb-20">TODO</h3>
-            <div id="todo-list" data-tasks='<?php echo json_encode($todo_tasks); ?>' data-bind="foreach: tasks">
-              <!-- Task Item Template -->
-              <div class="d-flex align-items-center p-15 rounded-6 mb-10 text-white" data-bind="style: { backgroundColor: category_color_code }">
-                <form method="POST" class="mr-12" data-bind="attr: { action: toggleUrl }">
-                  <input type="checkbox" onchange="this.form.submit()">
-                </form>
-                <a class="text-white text-decoration-none flex-grow-1" data-bind="attr: { href: editUrl }, text: title"></a>
+        <div id="task-app" data-todo-tasks='<?php echo json_encode($todo_tasks); ?>' data-done-tasks='<?php echo json_encode($done_tasks); ?>'>
+          <div class="d-flex">
+            <div class="w-1-2 mr-10">
+              <h3 class="font-size-lg font-weight-bold mb-20">TODO</h3>
+              <div data-bind="foreach: todoTasks">
+                <div class="d-flex align-items-center p-15 rounded-6 mb-10 text-white" data-bind="style: { backgroundColor: category_color_code }">
+                  <input type="checkbox" class="mr-12" data-bind="checked: is_completed, click: $parent.toggleTask">
+                  <a class="text-white text-decoration-none flex-grow-1" data-bind="attr: { href: editUrl }, text: title"></a>
+                </div>
               </div>
+              <p data-bind="visible: todoTasks().length === 0">Todoタスクはありません。</p>
             </div>
-            <?php if (empty($todo_tasks)): ?>
-              <p>Todoタスクはありません。</p>
-            <?php endif; ?>
-          </div>
-
-          <div class="w-1-2 ml-10 mt-0">
-            <h3 class="font-size-lg font-weight-bold mb-20">DONE</h3>
-            <div id="done-list" data-tasks='<?php echo json_encode($done_tasks); ?>' data-bind="foreach: tasks">
-              <!-- Task Item Template -->
-              <div class="d-flex align-items-center p-15 rounded-6 mb-10 text-white" data-bind="style: { backgroundColor: category_color_code }">
-                <form method="POST" class="mr-12" data-bind="attr: { action: toggleUrl }">
-                  <input type="checkbox" onchange="this.form.submit()" checked>
-                </form>
-                <a class="text-white text-decoration-none flex-grow-1" data-bind="attr: { href: editUrl }">
-                  <s data-bind="text: title"></s>
-                </a>
+  
+            <div class="w-1-2 ml-10 mt-0">
+              <h3 class="font-size-lg font-weight-bold mb-20">DONE</h3>
+              <div data-bind="foreach: doneTasks">
+                <div class="d-flex align-items-center p-15 rounded-6 mb-10 text-white" data-bind="style: { backgroundColor: category_color_code }">
+                  <input type="checkbox" class="mr-12" data-bind="checked: is_completed, click: $parent.toggleTask">
+                  <a class="text-white text-decoration-none flex-grow-1" data-bind="attr: { href: editUrl }">
+                    <s data-bind="text: title"></s>
+                  </a>
+                </div>
               </div>
+              <p data-bind="visible: doneTasks().length === 0">Doneタスクはありません。</p>
             </div>
-            <?php if (empty($done_tasks)): ?>
-              <p>Doneタスクはありません。</p>
-            <?php endif; ?>
           </div>
         </div>
       </div>

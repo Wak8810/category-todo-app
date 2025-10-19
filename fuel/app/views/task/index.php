@@ -98,6 +98,6 @@ use Fuel\Core\View;
     </div>
   </div>
 
-  <?php echo Asset::js('task-list.js'); ?>
+  <?php echo Asset::js('index_task.js'); ?>
 </body>
 </html>

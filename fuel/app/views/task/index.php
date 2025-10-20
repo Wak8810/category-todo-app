@@ -62,9 +62,9 @@ use Fuel\Core\View;
         <hr class="mb-40">
 
         <div id="task-app" 
-          data-todo-tasks='<?php echo json_encode($todo_tasks); ?>' 
-          data-done-tasks='<?php echo json_encode($done_tasks); ?>'
-          data-categories='<?php echo json_encode($categories); ?>'>
+          data-todo-tasks='<?php echo json_encode($todo_tasks, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT); ?>' 
+          data-done-tasks='<?php echo json_encode($done_tasks, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT); ?>'
+          data-categories='<?php echo json_encode($categories, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT); ?>'>
 
           <div class="mb-40">
             <button type="button" class="d-inline-block p-y-10 p-x-25 rounded-25 text-dark-gray font-size-base font-weight-600 border border-gray-light cursor-pointer mb-12" 

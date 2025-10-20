@@ -2,7 +2,6 @@
 use Fuel\Core\Arr;
 use Fuel\Core\Asset;
 use Fuel\Core\Form;
-use Fuel\Core\Input;
 use Fuel\Core\Uri;
 use Fuel\Core\View;
 ?>

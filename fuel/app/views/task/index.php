@@ -28,29 +28,36 @@ use Fuel\Core\View;
     </div>
 
     <div class="flex-grow-1">
-      <div class="w-100p bg-white p-50 rounded-8 shadow-md border border-gray-medium">
+      <div id="task-management-container" class="w-100p bg-white p-50 rounded-8 shadow-md border border-gray-medium">
         <?php echo View::forge('partials/flash'); ?>
 
         <div class="mb-40">
           <h3 class="font-size-lg font-weight-bold mb-20">新規タスク作成</h3>
           <?php $inputs = isset($form_inputs) ? $form_inputs : []; ?>
-          <form id="task-create-form" action="<?php echo Uri::create('tasks/create'); ?>" method="POST" class="d-flex align-items-end">
+          <form id="task-create-form" action="<?php echo Uri::create('tasks/create'); ?>" method="POST" class="d-flex align-items-end"
+                data-initial-title="<?php echo e(Arr::get($inputs, 'title', '')); ?>"
+                data-initial-category-id="<?php echo e(Arr::get($inputs, 'category_id', '')); ?>">
             <?php echo Form::csrf(); ?>
             <div class="flex-grow-1 mr-12">
               <label for="title" class="d-block mb-8 font-weight-600">タスク名</label>
               <input type="text" name="title" id="title" 
-                class="w-100p p-y-10 p-x-20 rounded-6 border border-gray-medium" required value="<?php echo e(Arr::get($inputs, 'title', '')); ?>">
+                class="w-100p p-y-10 p-x-20 rounded-6 border border-gray-medium" required 
+                value="<?php echo e(Arr::get($inputs, 'title', '')); ?>"
+                data-bind="value: title, valueUpdate: 'afterkeydown'">
+              <div class="font-size-xs mt-5 text-red min-h-1-2em" data-bind="visible: titleError, text: titleError"></div>
             </div>
             <div class="mr-12">
               <label for="category_id" class="d-block mb-8 font-weight-600">カテゴリー</label>
-              <select name="category_id" id="category_id" class="p-y-10 p-x-20 rounded-6 border border-gray-medium" style="height: 42px;">
+              <select name="category_id" id="category_id" class="p-y-10 p-x-20 rounded-6 border border-gray-medium" style="height: 42px;"
+                      data-bind="value: selectedCategoryId">
                 <?php foreach ($categories as $category): ?>
                   <option value="<?php echo $category['id']; ?>" <?php echo Arr::get($inputs, 'category_id') == $category['id'] ? 'selected' : ''; ?>><?php echo e($category['short_name']); ?></option>
                 <?php endforeach; ?>
               </select>
             </div>
             <div>
-              <button type="submit" class="p-y-10 p-x-25 rounded-6 border-none bg-blue text-white font-weight-bold cursor-pointer" style="height: 42px;">作成</button>
+              <button type="submit" class="p-y-10 p-x-25 rounded-6 border-none bg-blue text-white font-weight-bold cursor-pointer" style="height: 42px;"
+                      data-bind="enable: isFormValid">作成</button>
             </div>
           </form>
         </div>

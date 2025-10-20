@@ -1,13 +1,13 @@
 function AppViewModel() {
-  let self = this;
-  let form = document.getElementById('login-form');
-  let initialEmail = form.getAttribute('data-initial-email') || '';
+  const self = this;
+  const form = document.getElementById('login-form');
+  const initialEmail = form.getAttribute('data-initial-email') || '';
 
   self.email = ko.observable(initialEmail);
   self.password = ko.observable('');
 
   self.emailError = ko.computed(function () {
-    let emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
+    const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
     if (self.email().length > 0 && !emailRegex.test(self.email())) {
       return '有効なメールアドレスを入力してください。';
     }
@@ -23,8 +23,9 @@ function AppViewModel() {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-  let loginForm = document.getElementById('login-form');
-  if (loginForm) {
-    ko.applyBindings(new AppViewModel(), loginForm);
+  const loginForm = document.getElementById('login-form');
+  if (!loginForm) {
+    return;
   }
+  ko.applyBindings(new AppViewModel(), loginForm);
 });

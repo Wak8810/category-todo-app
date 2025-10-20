@@ -1,5 +1,5 @@
 function TaskViewModel(task) {
-  let self = this;
+  const self = this;
   self.id = task.id;
   self.title = task.title;
   self.short_title = task.short_title;
@@ -10,7 +10,7 @@ function TaskViewModel(task) {
 }
 
 function CategoryButtonViewModel(category) {
-  let self = this;
+  const self = this;
   self.id = category.id;
   self.name = category.name;
   self.shortName = category.short_name;
@@ -23,13 +23,13 @@ function CategoryButtonViewModel(category) {
 }
 
 function AppViewModel(initialData) {
-  let self = this;
+  const self = this;
   
   const allTasksRaw = initialData.todo_tasks.concat(initialData.done_tasks);
-  self.allTasks = ko.observableArray(allTasksRaw.map(task => new TaskViewModel(task)));
+  self.allTasks = ko.observableArray(allTasksRaw.map(function(task) { return new TaskViewModel(task); }));
 
   self.categoryButtons = ko.observableArray(
-    initialData.categories.map(cat => new CategoryButtonViewModel(cat))
+    initialData.categories.map(function(cat) { return new CategoryButtonViewModel(cat); })
   );
 
   self.chunkedCategoryButtons = ko.computed(function() {
@@ -44,8 +44,8 @@ function AppViewModel(initialData) {
 
   self.selectedCategoryIds = ko.computed(function() {
     return self.categoryButtons()
-      .filter(button => button.isSelected())
-      .map(button => String(button.id));
+      .filter(function(button) { return button.isSelected(); })
+      .map(function(button) { return String(button.id); });
   });
 
   self.isCategoryFilterVisible = ko.observable(false);
@@ -140,17 +140,18 @@ function AppViewModel(initialData) {
 
 document.addEventListener('DOMContentLoaded', function () {
   const container = document.getElementById('task-management-container');
-  if (container) {
-    const taskAppElement = document.getElementById('task-app');
-    const formElement = document.getElementById('task-create-form');
-
-    const initialData = {
-      todo_tasks: JSON.parse(taskAppElement.getAttribute('data-todo-tasks') || '[]'),
-      done_tasks: JSON.parse(taskAppElement.getAttribute('data-done-tasks') || '[]'),
-      categories: JSON.parse(taskAppElement.getAttribute('data-categories') || '[]'),
-      initialTitle: formElement.getAttribute('data-initial-title') || '',
-      initialCategoryId: formElement.getAttribute('data-initial-category-id') || '',
-    };
-    ko.applyBindings(new AppViewModel(initialData), container);
+  if (!container) {
+    return;
   }
+  const taskAppElement = document.getElementById('task-app');
+  const formElement = document.getElementById('task-create-form');
+
+  const initialData = {
+    todo_tasks: JSON.parse(taskAppElement.getAttribute('data-todo-tasks') || '[]'),
+    done_tasks: JSON.parse(taskAppElement.getAttribute('data-done-tasks') || '[]'),
+    categories: JSON.parse(taskAppElement.getAttribute('data-categories') || '[]'),
+    initialTitle: formElement.getAttribute('data-initial-title') || '',
+    initialCategoryId: formElement.getAttribute('data-initial-category-id') || '',
+  };
+  ko.applyBindings(new AppViewModel(initialData), container);
 });

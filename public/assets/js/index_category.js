@@ -1,5 +1,5 @@
 function CategoryViewModel(category) {
-  let self = this;
+  const self = this;
   self.id = category.id;
   self.name = category.name;
   self.displayName = category.display_name;
@@ -8,9 +8,9 @@ function CategoryViewModel(category) {
 }
 
 function AppViewModel(initialData) {
-  let self = this;
+  const self = this;
 
-  self.categories = ko.observableArray(initialData.categories.map(cat => new CategoryViewModel(cat)));
+  self.categories = ko.observableArray(initialData.categories.map(function(cat) { return new CategoryViewModel(cat); }));
 
   self.name = ko.observable(initialData.initialName || '');
   self.colorCode = ko.observable(initialData.initialColorCode || '#000000');
@@ -26,7 +26,7 @@ function AppViewModel(initialData) {
   });
 
   self.colorCodeError = ko.computed(function() {
-    let colorRegex = /^#[0-9a-fA-F]{6}$/;
+    const colorRegex = /^#[0-9a-fA-F]{6}$/;
     if (!colorRegex.test(self.colorCode())) {
       return 'カラーコードの形式が正しくありません。';
     }
@@ -43,13 +43,14 @@ function AppViewModel(initialData) {
 
 document.addEventListener('DOMContentLoaded', function () {
   const container = document.getElementById('category-management-container');
-  if (container) {
-    const categoryCreateForm = document.getElementById('category-create-form');
-    const initialData = {
-      categories: JSON.parse(container.getAttribute('data-categories') || '[]'),
-      initialName: categoryCreateForm.getAttribute('data-initial-name') || '',
-      initialColorCode: categoryCreateForm.getAttribute('data-initial-color-code') || '#000000',
-    };
-    ko.applyBindings(new AppViewModel(initialData), container);
+  if (!container) {
+    return;
   }
+  const categoryCreateForm = document.getElementById('category-create-form');
+  const initialData = {
+    categories: JSON.parse(container.getAttribute('data-categories') || '[]'),
+    initialName: categoryCreateForm.getAttribute('data-initial-name') || '',
+    initialColorCode: categoryCreateForm.getAttribute('data-initial-color-code') || '#000000',
+  };
+  ko.applyBindings(new AppViewModel(initialData), container);
 });

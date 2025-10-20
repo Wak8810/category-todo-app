@@ -2,6 +2,7 @@ function TaskViewModel(task) {
   let self = this;
   self.id = task.id;
   self.title = task.title;
+  self.short_title = task.short_title;
   self.category_id = task.category_id;
   self.category_color_code = task.category_color_code;
   self.is_completed = ko.observable(task.is_completed == 1);

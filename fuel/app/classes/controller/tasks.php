@@ -34,7 +34,7 @@ class Controller_Tasks extends \Fuel\Core\Controller
 
     $display_categories = [];
     foreach ($categories as $category) {
-      $category['short_name'] = mb_strlen($category['name']) > 10 ? mb_substr($category['name'], 0, 10) . '...' : $category['name'];
+      $category['short_name'] = mb_strlen($category['name']) > 30 ? mb_substr($category['name'], 0, 30) . '...' : $category['name'];
       $display_categories[] = $category;
     }
 
@@ -48,6 +48,7 @@ class Controller_Tasks extends \Fuel\Core\Controller
       'done' => [],
     ];
     foreach ($tasks as $task) {
+      $task['short_title'] = mb_strlen($task['title']) > 30 ? mb_substr($task['title'], 0, 30) . '...' : $task['title'];
       if ($task['is_completed']) {
         $grouped_tasks['done'][] = $task;
       } else {

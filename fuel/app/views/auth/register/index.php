@@ -40,7 +40,7 @@ use Fuel\Core\View;
           <input type="text" name="username" id="form_username" placeholder="ユーザー名"
                  class="w-100p p-15 rounded-6 border border-gray-light font-size-base placeholder-gray-light"
                  value="<?php echo e(Arr::get($inputs, 'username', '')); ?>" 
-                 data-bind="value: username, valueUpdate: 'afterkeydown'">
+                 data-bind="value: username, valueUpdate: 'blur'">
           <div class="font-size-xs mt-5 text-red min-h-1-2em" data-bind="visible: usernameError, text: usernameError"></div>
         </div>
 
@@ -49,7 +49,7 @@ use Fuel\Core\View;
           <input type="email" name="email" id="form_email" placeholder="メールアドレス"
                  class="w-100p p-15 rounded-6 border border-gray-light font-size-base placeholder-gray-light"
                  value="<?php echo e(Arr::get($inputs, 'email', '')); ?>" 
-                 data-bind="value: email, valueUpdate: 'afterkeydown'">
+                 data-bind="value: email, valueUpdate: 'blur'">
           <div class="font-size-xs mt-5 text-red min-h-1-2em" data-bind="visible: emailError, text: emailError"></div>
         </div>
 
@@ -57,7 +57,7 @@ use Fuel\Core\View;
           <label for="form_password" class="d-block mb-8 font-size-sm font-weight-500 text-gray-dark">パスワード</label>
           <input type="password" name="password" id="form_password" placeholder="パスワード"
                  class="w-100p p-15 rounded-6 border border-gray-light font-size-base placeholder-gray-light"
-                 data-bind="value: password, valueUpdate: 'afterkeydown'">
+                 data-bind="value: password, valueUpdate: 'blur'">
           <div class="font-size-xs mt-5 text-red min-h-1-2em" data-bind="visible: passwordError, text: passwordError"></div>
         </div>
 
@@ -65,7 +65,7 @@ use Fuel\Core\View;
           <label for="form_password_confirm" class="d-block mb-8 font-size-sm font-weight-500 text-gray-dark">パスワード（確認）</label>
           <input type="password" name="password_confirm" id="form_password_confirm" placeholder="パスワード（確認）"
                  class="w-100p p-15 rounded-6 border border-gray-light font-size-base placeholder-gray-light"
-                 data-bind="value: passwordConfirm, valueUpdate: 'afterkeydown'">
+                 data-bind="value: passwordConfirm, valueUpdate: 'blur'">
           <div class="font-size-xs mt-5 text-red min-h-1-2em" data-bind="visible: passwordConfirmError, text: passwordConfirmError"></div>
         </div>
 

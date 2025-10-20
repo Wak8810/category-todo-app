@@ -1,11 +1,10 @@
 <?php
 
 use Auth\Auth;
-use Fuel\Core\Controller_Rest;
 use Fuel\Core\Security;
 use Model\Task;
 
-class Controller_Api_Tasks extends Controller_Rest
+class Controller_Api_Tasks extends \Fuel\Core\Controller_Rest
 {
   public $user_id;
 

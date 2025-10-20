@@ -1,7 +1,6 @@
 <?php
 
 use Auth\Auth;
-use Fuel\Core\Controller;
 use Fuel\Core\Input;
 use Fuel\Core\Response;
 use Fuel\Core\Security;
@@ -9,7 +8,7 @@ use Fuel\Core\Session;
 use Fuel\Core\View;
 use Model\Category;
 
-class Controller_Categories extends Controller
+class Controller_Categories extends \Fuel\Core\Controller
 {
   public $user_id;
 

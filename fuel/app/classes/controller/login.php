@@ -1,14 +1,13 @@
 <?php
 
 use Auth\Auth;
-use Fuel\Core\Controller;
 use Fuel\Core\Input;
 use Fuel\Core\Response;
 use Fuel\Core\Security;
 use Fuel\Core\Session;
 use Fuel\Core\View;
 
-class Controller_Login extends Controller
+class Controller_Login extends \Fuel\Core\Controller
 {
   public function before()
   {

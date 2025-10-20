@@ -108,9 +108,19 @@ class Controller_Register extends \Fuel\Core\Controller
 
       if ($user_id)
       {
-        Session::set_flash('success', 'ユーザー登録完了');
-        Response::redirect('login');
-        
+        // ユーザー登録成功後、自動ログイン試行
+        if (Auth::login($email, $password))
+        {
+          // ログイン成功
+          Session::set_flash('success', 'ユーザー登録が完了しました。ようこそ、' . Auth::get_screen_name() . 'さん！');
+          Response::redirect('/'); // ルートページへリダイレクト
+        }
+        else
+        {
+          // 自動ログイン失敗 (通常は起こらないはず)
+          Session::set_flash('success', 'ユーザー登録は完了しましたが、自動ログインに失敗しました。お手数ですが再度ログインしてください。');
+          Response::redirect('login');
+        }
       }
       else //念のため
       {

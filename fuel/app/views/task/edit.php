@@ -23,7 +23,7 @@ use Fuel\Core\View;
 
       <?php $inputs = isset($form_inputs) ? $form_inputs : []; ?>
 
-      <form action="<?php echo Uri::create('tasks/update/' . $task['id']); ?>" method="POST">
+      <form id="update-task-form" action="<?php echo Uri::create('tasks/update/' . $task['id']); ?>" method="POST">
         <?php echo Form::csrf(); ?>
         <div class="mb-25">
           <label for="title" class="d-block mb-8 font-weight-600">タスク名</label>
@@ -33,27 +33,26 @@ use Fuel\Core\View;
         <div class="mb-40">
           <label for="category_id" class="d-block mb-8 font-weight-600">カテゴリー</label>
           <select name="category_id" id="category_id" class="w-100p p-y-10 p-x-20 rounded-6 border border-gray-medium">
-            <?php foreach ($categories as $category): ?>
-              <?php 
-                $selected_category = Arr::get($inputs, 'category_id', $task['category_id']);
-                $is_selected = ($selected_category == $category['id']);
-              ?>
+            <?php foreach ($categories as $category):
+              $selected_category = Arr::get($inputs, 'category_id', $task['category_id']);
+              $is_selected = ($selected_category == $category['id']);
+            ?>
               <option value="<?php echo $category['id']; ?>" <?php echo $is_selected ? 'selected' : ''; ?>><?php echo e($category['name']); ?></option>
             <?php endforeach; ?>
           </select>
         </div>
-
-        <div class="d-flex justify-content-between align-items-center">
-          <form action="<?php echo Uri::create('tasks/delete/' . $task['id']); ?>" method="POST" onsubmit="return confirm('本当にこのタスクを削除しますか？');">
-            <?php echo Form::csrf(); ?>
-            <button type="submit" class="p-y-10 p-x-20 rounded-6 border-none bg-red text-white font-weight-bold cursor-pointer">削除</button>
-          </form>
-          <div>
-            <a href="<?php echo Uri::create('tasks'); ?>" class="p-y-10 p-x-20 rounded-6 text-decoration-none bg-gray-dark text-white mr-12">キャンセル</a>
-            <button type="submit" class="p-y-10 p-x-20 rounded-6 border-none bg-blue text-white font-weight-bold cursor-pointer">更新</button>
-          </div>
-        </div>
       </form>
+
+      <div class="d-flex justify-content-between align-items-center">
+        <form action="<?php echo Uri::create('tasks/delete/' . $task['id']); ?>" method="POST" onsubmit="return confirm('本当にこのタスクを削除しますか？');">
+          <?php echo Form::csrf(); ?>
+          <button type="submit" class="p-y-10 p-x-20 rounded-6 border-none bg-red text-white font-weight-bold cursor-pointer">削除</button>
+        </form>
+        <div>
+          <a href="<?php echo Uri::create('tasks'); ?>" class="p-y-10 p-x-20 rounded-6 text-decoration-none bg-gray-dark text-white mr-12">キャンセル</a>
+          <button type="submit" form="update-task-form" class="p-y-10 p-x-20 rounded-6 border-none bg-blue text-white font-weight-bold cursor-pointer">更新</button>
+        </div>
+      </div>
     </div>
   </div>
 

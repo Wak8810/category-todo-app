@@ -4,6 +4,7 @@ use Auth\Auth;
 use Fuel\Core\Controller;
 use Fuel\Core\Input;
 use Fuel\Core\Response;
+use Fuel\Core\Security;
 use Fuel\Core\Session;
 use Fuel\Core\View;
 use Model\Category;
@@ -59,6 +60,12 @@ class Controller_Categories extends Controller
    */
   public function post_create()
   {
+    if (!Security::check_token())
+    {
+      Session::set_flash('error', 'ページの有効期限が切れました。もう一度やり直してください。');
+      Response::redirect('categories');
+    }
+
     $errors = [];
     $name = Input::post('name');
     $color_code = Input::post('color_code');
@@ -113,6 +120,12 @@ class Controller_Categories extends Controller
    */
   public function post_update($id = null)
   {
+    if (!Security::check_token())
+    {
+      Session::set_flash('error', 'ページの有効期限が切れました。もう一度やり直してください。');
+      Response::redirect('categories');
+    }
+
     $category = Category::find_one_by_id_and_user_id($id, $this->user_id);
 
     if (!$category)
@@ -179,6 +192,12 @@ class Controller_Categories extends Controller
    */
   public function post_delete($id = null)
   {
+    if (!Security::check_token())
+    {
+      Session::set_flash('error', 'ページの有効期限が切れました。もう一度やり直してください。');
+      Response::redirect('categories');
+    }
+
     if (!Category::find_one_by_id_and_user_id($id, $this->user_id))
     {
       Session::set_flash('error', '指定されたカテゴリーは見つかりません。');

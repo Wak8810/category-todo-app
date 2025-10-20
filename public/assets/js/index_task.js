@@ -8,12 +8,12 @@ function TaskViewModel(task) {
   self.editUrl = '/tasks/edit/' + self.id;
 }
 
-function CategoryButtonViewModel(category, colorCode) {
+function CategoryButtonViewModel(category) {
   let self = this;
   self.id = category.id;
   self.name = category.name;
   self.shortName = category.short_name;
-  self.colorCode = colorCode || '#cccccc'; // デフォルト色
+  self.colorCode = category.color_code || '#cccccc';
   self.isSelected = ko.observable(false);
 
   self.toggle = function() {
@@ -27,16 +27,19 @@ function AppViewModel(initialData) {
   const allTasksRaw = initialData.todo_tasks.concat(initialData.done_tasks);
   self.allTasks = ko.observableArray(allTasksRaw.map(task => new TaskViewModel(task)));
 
-  const categoryColorMap = allTasksRaw.reduce((map, task) => {
-    if (task.category_id && task.category_color_code) {
-      map[task.category_id] = task.category_color_code;
-    }
-    return map;
-  }, {});
-
   self.categoryButtons = ko.observableArray(
-    initialData.categories.map(cat => new CategoryButtonViewModel(cat, categoryColorMap[cat.id]))
+    initialData.categories.map(cat => new CategoryButtonViewModel(cat))
   );
+
+  self.chunkedCategoryButtons = ko.computed(function() {
+    const buttons = self.categoryButtons();
+    const chunkSize = 5;
+    const result = [];
+    for (let i = 0; i < buttons.length; i += chunkSize) {
+      result.push(buttons.slice(i, i + chunkSize));
+    }
+    return result;
+  });
 
   self.selectedCategoryIds = ko.computed(function() {
     return self.categoryButtons()

@@ -2,6 +2,7 @@
 
 use Auth\Auth;
 use Fuel\Core\Controller_Rest;
+use Fuel\Core\Security;
 use Model\Task;
 
 class Controller_Api_Tasks extends Controller_Rest
@@ -24,6 +25,11 @@ class Controller_Api_Tasks extends Controller_Rest
    */
   public function post_toggle($id = null)
   {
+    if (!Security::check_token())
+    {
+      return $this->response(['status' => 'error', 'message' => '不正なリクエストです。ページを再読み込みしてもう一度お試しください。'], 403);
+    }
+
     try {
       if (!$id)
       {

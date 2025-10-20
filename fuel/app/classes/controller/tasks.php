@@ -4,6 +4,7 @@ use Auth\Auth;
 use Fuel\Core\Controller;
 use Fuel\Core\Input;
 use Fuel\Core\Response;
+use Fuel\Core\Security;
 use Fuel\Core\Session;
 use Fuel\Core\View;
 use Model\Task;
@@ -32,13 +33,11 @@ class Controller_Tasks extends Controller
     $tasks = Task::find_by_user_id($this->user_id);
     $categories = Category::find_by_user_id($this->user_id);
 
-    // カテゴリーが一つもなければメッセージを表示
     if (empty($categories))
     {
       Session::set_flash('success', 'まずはカテゴリーを作成しましょう。カテゴリーを作成後に登録できます。');
     }
 
-    // タスクを 'todo' と 'done' に振り分ける
     $grouped_tasks = [
       'todo' => [],
       'done' => [],
@@ -88,6 +87,12 @@ class Controller_Tasks extends Controller
    */
   public function post_create()
   {
+    if (!Security::check_token())
+    {
+      Session::set_flash('error', 'ページの有効期限が切れました。もう一度やり直してください。');
+      Response::redirect('tasks');
+    }
+
     $errors = [];
     $title = Input::post('title');
     $category_id = Input::post('category_id');
@@ -142,6 +147,12 @@ class Controller_Tasks extends Controller
    */
   public function post_update($id = null)
   {
+    if (!Security::check_token())
+    {
+      Session::set_flash('error', 'ページの有効期限が切れました。もう一度やり直してください。');
+      Response::redirect('tasks');
+    }
+
     $task = Task::find_one_by_id_and_user_id($id, $this->user_id);
     if (!$task)
     {
@@ -200,6 +211,12 @@ class Controller_Tasks extends Controller
    */
   public function post_delete($id = null)
   {
+    if (!Security::check_token())
+    {
+      Session::set_flash('error', 'ページの有効期限が切れました。もう一度やり直してください。');
+      Response::redirect('tasks');
+    }
+
     $task = Task::find_one_by_id_and_user_id($id, $this->user_id);
     if (!$task)
     {

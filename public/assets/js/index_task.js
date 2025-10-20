@@ -4,7 +4,7 @@ function TaskViewModel(task) {
   self.title = task.title;
   self.short_title = task.short_title;
   self.category_id = task.category_id;
-  self.category_color_code = task.category_color_code;
+  self.category_color_code = task.category_color_code || '#cccccc';
   self.is_completed = ko.observable(task.is_completed == 1);
   self.editUrl = '/tasks/edit/' + self.id;
 }
@@ -14,7 +14,7 @@ function CategoryButtonViewModel(category) {
   self.id = category.id;
   self.name = category.name;
   self.shortName = category.short_name;
-  self.colorCode = category.color_code || '#cccccc';
+  self.colorCode = category.color_code;
   self.isSelected = ko.observable(false);
 
   self.toggle = function() {
@@ -53,6 +53,29 @@ function AppViewModel(initialData) {
   self.toggleCategoryFilter = function() {
     self.isCategoryFilterVisible(!self.isCategoryFilterVisible());
   };
+
+  self.title = ko.observable(initialData.initialTitle || '');
+  self.selectedCategoryId = ko.observable(initialData.initialCategoryId || '');
+
+  self.titleError = ko.computed(function() {
+    if (self.title().length === 0) {
+      return null;
+    }
+    if (self.title().length > 255) {
+      return 'タスク名は255文字以内で入力してください。';
+    }
+    return null;
+  });
+
+  self.isFormValid = ko.computed(function() {
+    if (self.titleError() || !self.title()) {
+      return false;
+    }
+    if (!self.selectedCategoryId()) {
+      return false;
+    }
+    return true;
+  });
 
   self.todoTasks = ko.computed(function() {
     const selectedIds = self.selectedCategoryIds();
@@ -116,13 +139,18 @@ function AppViewModel(initialData) {
 }
 
 document.addEventListener('DOMContentLoaded', function () {
-  const taskAppElement = document.getElementById('task-app');
-  if (taskAppElement) {
+  const container = document.getElementById('task-management-container');
+  if (container) {
+    const taskAppElement = document.getElementById('task-app');
+    const formElement = document.getElementById('task-create-form');
+
     const initialData = {
       todo_tasks: JSON.parse(taskAppElement.getAttribute('data-todo-tasks') || '[]'),
       done_tasks: JSON.parse(taskAppElement.getAttribute('data-done-tasks') || '[]'),
-      categories: JSON.parse(taskAppElement.getAttribute('data-categories') || '[]')
+      categories: JSON.parse(taskAppElement.getAttribute('data-categories') || '[]'),
+      initialTitle: formElement.getAttribute('data-initial-title') || '',
+      initialCategoryId: formElement.getAttribute('data-initial-category-id') || '',
     };
-    ko.applyBindings(new AppViewModel(initialData), taskAppElement);
+    ko.applyBindings(new AppViewModel(initialData), container);
   }
 });

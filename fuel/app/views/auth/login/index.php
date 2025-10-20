@@ -38,7 +38,7 @@ use Fuel\Core\View;
           <input type="email" name="email" id="form_email" placeholder="メールアドレス"
                  class="w-100p p-15 rounded-6 border border-gray-light font-size-base placeholder-gray-light"
                  value="<?php echo e(Arr::get($inputs, 'email', '')); ?>"
-                 data-bind="value: email, valueUpdate: 'afterkeydown'">
+                 data-bind="value: email, valueUpdate: 'blur'">
           <div class="font-size-xs mt-5 text-red min-h-1-2em" data-bind="visible: emailError, text: emailError"></div>
         </div>
 
@@ -46,7 +46,7 @@ use Fuel\Core\View;
           <label for="form_password" class="d-block mb-8 font-size-sm font-weight-500 text-gray-dark">パスワード</label>
           <input type="password" name="password" id="form_password" placeholder="パスワード"
                  class="w-100p p-15 rounded-6 border border-gray-light font-size-base placeholder-gray-light"
-                 data-bind="value: password, valueUpdate: 'afterkeydown'">
+                 data-bind="value: password, valueUpdate: 'blur'">
         </div>
 
         <div class="d-block text-left mb-30 font-size-sm">

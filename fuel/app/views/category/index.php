@@ -79,8 +79,7 @@ use Fuel\Core\View;
                       <div class="w-60p h-50" style="background-color: <?php echo e($category['color_code']); ?>;"></div>
                     </td>
                     <td class="p-y-10">
-                      <!---長すぎるのを対処--->
-                      <?php echo e(mb_strlen($category['name']) > 60 ? mb_substr($category['name'], 0, 70) . '...' : $category['name']); ?>
+                      <?php echo e($category['display_name']); ?>
                     </td>
                     <td class="p-y-10 text-center">
                       <a href="<?php echo Uri::create('categories/edit/' . $category['id']); ?>" class="d-inline-block p-y-10 p-x-20 rounded-6 border border-gray-light bg-white text-blue text-decoration-none">編集</a>

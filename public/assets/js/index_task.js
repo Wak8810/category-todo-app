@@ -12,6 +12,7 @@ function CategoryButtonViewModel(category, colorCode) {
   let self = this;
   self.id = category.id;
   self.name = category.name;
+  self.shortName = category.short_name;
   self.colorCode = colorCode || '#cccccc'; // デフォルト色
   self.isSelected = ko.observable(false);
 

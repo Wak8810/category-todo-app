@@ -25,7 +25,7 @@ use Fuel\Core\View;
         class="d-inline-block p-y-10 p-x-25 rounded-25 text-decoration-none text-dark-gray font-size-base font-weight-600 border bg-lime border-lime cursor-pointer">カテゴリー一覧</a>
     </div>
     <div class="flex-grow-1">
-      <div class="w-100p bg-white p-50 rounded-8 shadow-md border border-gray-medium">
+      <div id="category-management-container" class="w-100p bg-white p-50 rounded-8 shadow-md border border-gray-medium" data-categories='<?php echo json_encode($categories, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT); ?>'>
         <?php echo View::forge('partials/flash'); ?>
 
         <div class="mb-40">
@@ -47,14 +47,14 @@ use Fuel\Core\View;
             <div class="mr-12">
               <label for="color_code" class="d-block mb-8 font-weight-600">カラー</label>
               <div class="d-flex align-items-center">
-                <input type="color" name="color_code" id="color_code" class="rounded-6 border border-gray-medium" style="height: 42px; width: 100px;"
+                <input type="color" name="color_code" id="color_code" class="rounded-6 border border-gray-medium h-42px w-100px"
                        value="<?php echo e(Arr::get($inputs, 'color_code', '#000000')); ?>"
                        data-bind="value: colorCode">
               </div>
               <div class="font-size-xs mt-5 text-red min-h-1-2em" data-bind="visible: colorCodeError, text: colorCodeError"></div>
             </div>
             <div>
-              <button type="submit" class="p-y-10 p-x-25 rounded-6 border-none bg-blue text-white font-weight-bold cursor-pointer" style="height: 42px;" data-bind="enable: isFormValid">作成</button>
+              <button type="submit" class="p-y-10 p-x-25 rounded-6 border-none bg-blue text-white font-weight-bold cursor-pointer h-42px" data-bind="enable: isFormValid">作成</button>
             </div>
           </form>
         </div>
@@ -71,33 +71,28 @@ use Fuel\Core\View;
                 <th class="p-y-10 font-weight-600 w-15p">操作</th>
               </tr>
             </thead>
-            <tbody>
-              <?php if (!empty($categories)) : ?>
-                <?php foreach ($categories as $category) : ?>
-                  <tr class="bg-gray-light">
-                    <td class="p-y-10 d-flex justify-content-center">
-                      <div class="w-60p h-50" style="background-color: <?php echo e($category['color_code']); ?>;"></div>
-                    </td>
-                    <td class="p-y-10">
-                      <?php echo e($category['display_name']); ?>
-                    </td>
-                    <td class="p-y-10 text-center">
-                      <a href="<?php echo Uri::create('categories/edit/' . $category['id']); ?>" class="d-inline-block p-y-10 p-x-20 rounded-6 border border-gray-light bg-white text-blue text-decoration-none">編集</a>
-                    </td>
-                  </tr>
-                <?php endforeach; ?>
-              <?php else : ?>
-                <tr>
-                  <td colspan="3" class="p-y-10 text-center">カテゴリーはまだ登録されていません。</td>
+            <tbody data-bind="foreach: categories">
+              <tr class="bg-gray-light">
+                  <td class="p-y-10 d-flex justify-content-center">
+                    <div class="w-60p h-50" data-bind="style: { backgroundColor: colorCode }"></div>
+                  </td>
+                  <td class="p-y-10" data-bind="text: displayName">
+                  </td>
+                  <td class="p-y-10 text-center">
+                    <a data-bind="attr: { href: editUrl }" class="d-inline-block p-y-10 p-x-20 rounded-6 border border-gray-light bg-white text-blue text-decoration-none">編集</a>
+                  </td>
                 </tr>
-              <?php endif; ?>
             </tbody>
           </table>
+          <?php if (empty($categories)) : ?>
+            <p class="p-y-10 text-center">カテゴリーはまだ登録されていません。</p>
+          <?php endif; ?>
         </div>
       </div>
     </div>
 
   </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.5.1/knockout-latest.js"></script>
   <?php echo Asset::js('index_category.js'); ?>
 </body>
 </html>

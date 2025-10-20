@@ -33,7 +33,7 @@ use Fuel\Core\View;
         <div class="mb-20">
           <label for="color_code" class="d-block mb-8 font-weight-600">カラー</label>
           <div class="d-flex align-items-center">
-              <input type="color" name="color_code" id="color_code" class="rounded-6" style="height: 42px; width: 100px;" value="<?php echo e(Arr::get($inputs, 'color_code', $category['color_code'])); ?>" data-bind="value: colorCode" required>
+              <input type="color" name="color_code" id="color_code" class="rounded-6 h-42px w-100px" value="<?php echo e(Arr::get($inputs, 'color_code', $category['color_code'])); ?>" data-bind="value: colorCode" required>
           </div>
           <div class="font-size-xs mt-5 text-red min-h-1-2em" data-bind="visible: colorCodeError, text: colorCodeError"></div>
         </div>

@@ -83,11 +83,7 @@ use Fuel\Core\View;
                       <?php echo e(mb_strlen($category['name']) > 60 ? mb_substr($category['name'], 0, 70) . '...' : $category['name']); ?>
                     </td>
                     <td class="p-y-10 text-center">
-                      <a href="<?php echo Uri::create('categories/edit/' . $category['id']); ?>" class="d-inline-block p-y-10 p-x-20 rounded-6 border border-gray-light bg-white text-blue text-decoration-none mr-12">編集</a>
-                      <form action="<?php echo Uri::create('categories/delete/' . $category['id']); ?>" method="POST" class="d-inline">
-                        <?php echo Form::csrf(); ?>
-                        <button type="submit" class="p-y-10 p-x-20 rounded-6 border border-red-light bg-red-light text-red-dark cursor-pointer" onclick="return confirm('本当に削除しますか？この操作は元に戻せません。');">削除</button>
-                      </form>
+                      <a href="<?php echo Uri::create('categories/edit/' . $category['id']); ?>" class="d-inline-block p-y-10 p-x-20 rounded-6 border border-gray-light bg-white text-blue text-decoration-none">編集</a>
                     </td>
                   </tr>
                 <?php endforeach; ?>

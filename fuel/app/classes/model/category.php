@@ -75,14 +75,25 @@ class Category extends \Fuel\Core\Model
    */
   public static function delete_category($id, $user_id)
   {
-    $query_data = ['deleted_at' => Date::forge()->format('mysql')];
+    try {
+      DB::start_transaction();
 
-    $result = DB::update('categories')->set($query_data)
-      ->where('id', $id)
-      ->and_where('user_id', $user_id)
-      ->execute();
+      Task::delete_by_category_id($id, $user_id);
 
-    return ($result > 0);
+      $query_data = ['deleted_at' => Date::forge()->format('mysql')];
+      $result = DB::update('categories')->set($query_data)
+        ->where('id', $id)
+        ->and_where('user_id', $user_id)
+        ->execute();
+
+      DB::commit_transaction();
+
+      return ($result > 0);
+
+    } catch (\Exception $e) {
+      DB::rollback_transaction();
+      return false;
+    }
   }
 
   /**

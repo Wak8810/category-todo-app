@@ -23,7 +23,8 @@ use Fuel\Core\View;
 
       <?php echo View::forge('partials/flash'); ?>
 
-      <form method="post" data-bind="attr: { action: updateUrl }">
+      <form id="update-category-form" method="post" data-bind="attr: { action: updateUrl }">
+        <?php echo Form::csrf(); ?>
         <div class="mb-20">
           <label for="name" class="d-block mb-8 font-weight-600">カテゴリー名</label>
           <textarea id="name" name="name" class="w-100p p-y-8 p-x-20 rounded-4 border border-gray-light resize-vertical" rows="3" data-bind="value: name, valueUpdate: 'afterkeydown'" required><?php echo e(Arr::get($inputs, 'name', $category['name'])); ?></textarea>
@@ -37,12 +38,18 @@ use Fuel\Core\View;
           </div>
           <div class="font-size-xs mt-5 text-red min-h-1-2em" data-bind="visible: colorCodeError, text: colorCodeError"></div>
         </div>
-
-        <div class="mt-30 text-center">
-          <button type="submit" class="p-y-10 p-x-15 text-decoration-none cursor-pointer font-size-base rounded-4 border-none mr-12 bg-blue text-white" data-bind="enable: isFormValid">更新</button>
-          <a href="/categories" class="p-y-10 p-x-15 text-decoration-none cursor-pointer font-size-base rounded-4 bg-gray-dark text-white">キャンセル</a>
-        </div>
       </form>
+
+      <div class="d-flex justify-content-between align-items-center mt-30">
+        <form action="<?php echo Uri::create('categories/delete/' . $category['id']); ?>" method="POST" onsubmit="return confirm('削除した場合、そのカテゴリーのタスクも削除されますがよろしいですか？');">
+          <?php echo Form::csrf(); ?>
+          <button type="submit" class="p-y-10 p-x-20 rounded-6 border-none bg-red text-white font-weight-bold cursor-pointer">削除</button>
+        </form>
+        <div>
+          <a href="/categories" class="p-y-10 p-x-15 text-decoration-none cursor-pointer font-size-base rounded-4 bg-gray-dark text-white mr-12">キャンセル</a>
+          <button type="submit" form="update-category-form" class="p-y-10 p-x-15 text-decoration-none cursor-pointer font-size-base rounded-4 border-none mr-12 bg-blue text-white" data-bind="enable: isFormValid">更新</button>
+        </div>
+      </div>
     </div>
   </div>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.5.1/knockout-latest.js"></script>

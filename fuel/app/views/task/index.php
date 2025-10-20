@@ -68,10 +68,13 @@ use Fuel\Core\View;
               カテゴリーで絞り込み
             </button>
             <div data-bind="visible: isCategoryFilterVisible">
-              <div class="d-flex flex-wrap" data-bind="foreach: categoryButtons">
-                <button class="p-y-8 p-x-15 rounded-25 border-none cursor-pointer mr-10 mb-10" 
-                  data-bind="click: toggle, style: { backgroundColor: colorCode, opacity: isSelected() ? 1 : 0.6 }, text: shortName, attr: { title: name }">
-                </button>
+              <!-- 2重ループでボタンを作成 -->
+              <div data-bind="foreach: chunkedCategoryButtons">
+                <div class="d-flex mb-10" data-bind="foreach: $data">
+                  <button class="p-y-8 rounded-25 border-none cursor-pointer mr-10 w-120 whitespace-nowrap overflow-hidden text-ellipsis text-center" 
+                          data-bind="click: toggle, style: { backgroundColor: colorCode, opacity: isSelected() ? 1 : 0.6 }, text: shortName, attr: { title: name }">
+                  </button>
+                </div>
               </div>
             </div>
           </div>

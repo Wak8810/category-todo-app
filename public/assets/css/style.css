@@ -31,6 +31,7 @@ body, html {
 .w-70p { width: 70%; }
 .w-80p { width: 80%; }
 .w-100p { width: 100%; }
+.w-120 { width: 120px; }
 .max-w-480 { max-width: 480px; }
 .max-w-600 { max-width: 600px; }
 
@@ -70,6 +71,7 @@ body, html {
 .text-left { text-align: left; }
 .text-center { text-align: center; }
 .text-decoration-none { text-decoration: none; }
+.text-ellipsis { text-overflow: ellipsis; }
 
 .font-size-xs { font-size: 0.85em; }
 .font-size-sm { font-size: 0.9em; }
@@ -82,6 +84,8 @@ body, html {
 .font-weight-bold { font-weight: bold; }
 
 .placeholder-gray-light::placeholder { color: #bbbbbb; }
+
+.whitespace-nowrap { white-space: nowrap; }
 
 /* --- 色 --- */
 .bg-none { background: none; }
@@ -132,6 +136,7 @@ body, html {
 .resize-vertical { resize: vertical; }
 
 /* --- その他 --- */
+.overflow-hidden { overflow: hidden; }
 .shadow-md { box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); }
 .shadow-inner { box-shadow: inset 0 2px 4px rgba(0,0,0,0.06); }
 .cursor-pointer { cursor: pointer; }

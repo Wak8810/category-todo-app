@@ -38,6 +38,16 @@ function AppViewModel(initialData) {
     initialData.categories.map(cat => new CategoryButtonViewModel(cat, categoryColorMap[cat.id]))
   );
 
+  self.chunkedCategoryButtons = ko.computed(function() {
+    const buttons = self.categoryButtons();
+    const chunkSize = 5;
+    const result = [];
+    for (let i = 0; i < buttons.length; i += chunkSize) {
+      result.push(buttons.slice(i, i + chunkSize));
+    }
+    return result;
+  });
+
   self.selectedCategoryIds = ko.computed(function() {
     return self.categoryButtons()
       .filter(button => button.isSelected())

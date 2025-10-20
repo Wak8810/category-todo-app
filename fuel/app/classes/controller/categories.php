@@ -102,23 +102,26 @@ class Controller_Categories extends \Fuel\Core\Controller
       $errors['color_code'] = 'カラーコードの形式が正しくありません。';
     }
 
-    if (empty($errors))
+    if (!empty($errors))
     {
-      $new_id = Category::create_category($this->user_id, e($name), $color_code);
-      if ($new_id !== false)
-      {
-        Session::set_flash('success', 'カテゴリーの作成に成功しました。');
-        Response::redirect('categories');
-      }
-      else
-      {
-        $errors['create'] = '何かのエラーが発生しました。';
-      }
+      Session::set_flash('errors', $errors);
+      Session::set_flash('form_inputs', Input::post());
+      Response::redirect('categories');
     }
     
-    Session::set_flash('errors', $errors);
-    Session::set_flash('form_inputs', Input::post());
-    Response::redirect('categories');
+    $new_id = Category::create_category($this->user_id, e($name), $color_code);
+    if ($new_id !== false)
+    {
+      Session::set_flash('success', 'カテゴリーの作成に成功しました。');
+      Response::redirect('categories');
+    }
+    else
+    {
+      $errors['create'] = '何かのエラーが発生しました。';
+      Session::set_flash('errors', $errors);
+      Session::set_flash('form_inputs', Input::post());
+      Response::redirect('categories');
+    }
   }
 
   /**
@@ -174,23 +177,26 @@ class Controller_Categories extends \Fuel\Core\Controller
       $errors['color_code'] = 'カラーコードの形式が正しくありません。';
     }
 
-    if (empty($errors))
+    if (!empty($errors))
     {
-      $success = Category::update_category($id, $this->user_id, e($name), $color_code);
-      if ($success)
-      {
-        Session::set_flash('success', 'カテゴリーを更新しました。');
-        Response::redirect('categories');
-      }
-      else
-      {
-        $errors['update'] = 'カテゴリーの更新に失敗しました。何らかのエラーが発生しました。';
-      }
+      Session::set_flash('errors', $errors);
+      Session::set_flash('form_inputs', Input::post());
+      Response::redirect('categories/edit/' . $id);
     }
 
-    Session::set_flash('errors', $errors);
-    Session::set_flash('form_inputs', Input::post());
-    Response::redirect('categories/edit/' . $id);
+    $success = Category::update_category($id, $this->user_id, e($name), $color_code);
+    if ($success)
+    {
+      Session::set_flash('success', 'カテゴリーを更新しました。');
+      Response::redirect('categories');
+    }
+    else
+    {
+      $errors['update'] = 'カテゴリーの更新に失敗しました。何らかのエラーが発生しました。';
+      Session::set_flash('errors', $errors);
+      Session::set_flash('form_inputs', Input::post());
+      Response::redirect('categories/edit/' . $id);
+    }
   }
 
   /**
@@ -207,20 +213,18 @@ class Controller_Categories extends \Fuel\Core\Controller
     if (!Category::find_one_by_id_and_user_id($id, $this->user_id))
     {
       Session::set_flash('error', '指定されたカテゴリーは見つかりません。');
+      Response::redirect('categories'); // 早期リターン
+    }
+    
+    $success = Category::delete_category($id, $this->user_id);
+    if ($success)
+    {
+      Session::set_flash('success', 'カテゴリーを削除しました。');
     }
     else
     {
-      $success = Category::delete_category($id, $this->user_id);
-      if ($success)
-      {
-        Session::set_flash('success', 'カテゴリーを削除しました。');
-      }
-      else
-      {
-        Session::set_flash('error', 'カテゴリーの削除に失敗しました。');
-      }
+      Session::set_flash('error', 'カテゴリーの削除に失敗しました。');
     }
-
     Response::redirect('categories');
   }
 }

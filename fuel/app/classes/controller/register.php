@@ -48,7 +48,6 @@ class Controller_Register extends \Fuel\Core\Controller
     $password = Input::post('password');
     $password_confirm = Input::post('password_confirm');
 
-    // ユーザー名のバリデーション
     if (empty($username))
     {
       $errors['username'] = 'ユーザー名は必須です。';
@@ -70,7 +69,6 @@ class Controller_Register extends \Fuel\Core\Controller
       $errors['username'] = '存在しているユーザーネームです。';
     }
 
-    // メールアドレスのバリデーション
     if (empty($email))
     {
       $errors['email'] = 'メールアドレスは必須です。';
@@ -84,7 +82,6 @@ class Controller_Register extends \Fuel\Core\Controller
       $errors['email'] = 'このメールアドレスは既に使用されています。';
     }
 
-    // パスワードのバリデーション
     if (empty($password))
     {
       $errors['password'] = 'パスワードは必須です。';
@@ -94,45 +91,36 @@ class Controller_Register extends \Fuel\Core\Controller
       $errors['password'] = 'パスワードは8文字以上で入力してください。';
     }
 
-    // パスワード（確認）のバリデーション
     if ($password !== $password_confirm)
     {
       $errors['password_confirm'] = 'パスワードが一致しません。';
     }
 
-    // エラー配列が空かどうかで処理を分岐
-    if (empty($errors))
+    if (!empty($errors))
     {
-      // バリデーション成功：DB保存直前にサニタイズ
-      $user_id = User::create(e($username), e($email), $password);
+      Session::set_flash('errors', $errors);
+      Session::set_flash('form_inputs', Input::post());
+      Response::redirect('register');
+    }
 
-      if ($user_id)
+    $user_id = User::create(e($username), e($email), $password);
+
+    if ($user_id)
+    {
+      if (Auth::login($email, $password))
       {
-        // ユーザー登録成功後、自動ログイン試行
-        if (Auth::login($email, $password))
-        {
-          // ログイン成功
-          Session::set_flash('success', 'ユーザー登録が完了しました。ようこそ、' . Auth::get_screen_name() . 'さん！');
-          Response::redirect('/'); // ルートページへリダイレクト
-        }
-        else
-        {
-          // 自動ログイン失敗 (通常は起こらないはず)
-          Session::set_flash('success', 'ユーザー登録は完了しましたが、自動ログインに失敗しました。お手数ですが再度ログインしてください。');
-          Response::redirect('login');
-        }
+        Session::set_flash('success', 'ユーザー登録が完了しました。ようこそ、' . Auth::get_screen_name() . 'さん！');
+        Response::redirect('/');
       }
-      else //念のため
+      else
       {
-        Session::set_flash('error', '予期せぬエラーで登録に失敗しました。');
-        Response::redirect('register');
+        Session::set_flash('success', 'ユーザー登録は完了しましたが、自動ログインに失敗しました。お手数ですが再度ログインしてください。');
+        Response::redirect('login');
       }
     }
     else
     {
-      // バリデーション失敗：エラーと入力値をフラッシュセッションに保存してリダイレクト
-      Session::set_flash('errors', $errors);
-      Session::set_flash('form_inputs', Input::post());
+      Session::set_flash('error', '予期せぬエラーで登録に失敗しました。');
       Response::redirect('register');
     }
   }

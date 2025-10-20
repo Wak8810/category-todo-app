@@ -84,7 +84,7 @@ use Fuel\Core\View;
               <div data-bind="foreach: todoTasks">
                 <div class="d-flex align-items-center p-15 rounded-6 mb-20 text-white" data-bind="style: { backgroundColor: category_color_code }">
                   <input type="checkbox" class="mr-12" data-bind="checked: is_completed(), click: $parent.toggleTask">
-                  <a class="text-white text-decoration-none flex-grow-1 p-y-10" data-bind="attr: { href: editUrl }, text: title"></a>
+                  <a class="text-white text-decoration-none flex-grow-1 p-y-10" data-bind="attr: { href: editUrl, title: title }, text: short_title"></a>
                 </div>
               </div>
               <p data-bind="visible: todoTasks().length === 0">Todoタスクはありません。</p>
@@ -95,8 +95,8 @@ use Fuel\Core\View;
               <div data-bind="foreach: doneTasks">
                 <div class="d-flex align-items-center p-15 rounded-6 mb-20 text-white" data-bind="style: { backgroundColor: category_color_code }">
                   <input type="checkbox" class="mr-12" data-bind="checked: is_completed(), click: $parent.toggleTask">
-                  <a class="text-white text-decoration-none flex-grow-1 p-y-10" data-bind="attr: { href: editUrl }">
-                    <s data-bind="text: title"></s>
+                  <a class="text-white text-decoration-none flex-grow-1 p-y-10" data-bind="attr: { href: editUrl, title: title }">
+                    <s data-bind="text: short_title"></s>
                   </a>
                 </div>
               </div>

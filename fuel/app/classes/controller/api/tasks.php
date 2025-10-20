@@ -42,18 +42,19 @@ class Controller_Api_Tasks extends Controller_Rest
         return $this->response(['status' => 'error', 'message' => 'タスクが見つからないか、権限がありません。'], 404);
       }
 
-      // ユーザーが元に戻した toggle_completed メソッドを呼び出す
       if (Task::toggle_completed($id, $this->user_id))
       {
-        return $this->response(['status' => 'ok', 'message' => 'データベースの更新は成功しました。'], 200);
+        return $this->response([
+          'status' => 'ok', 
+          'message' => 'データベースの更新は成功しました。',
+          'new_csrf_token' => Security::fetch_token(),
+        ], 200);
       }
       else
       {
-        // DB更新は成功したが、影響行数が0だった場合のメッセージ
         return $this->response(['status' => 'error', 'message' => 'データベースの更新は成功しましたが、影響行数が0と報告されました。'], 500);
       }
     } catch (\Exception $e) {
-      // 発生したPHPエラーを捕まえてJSONで返す
       return $this->response([
         'status' => 'error',
         'message' => 'サーバーで予期せぬエラーが発生しました。',

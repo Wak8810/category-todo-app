@@ -32,6 +32,12 @@ class Controller_Tasks extends Controller
     $tasks = Task::find_by_user_id($this->user_id);
     $categories = Category::find_by_user_id($this->user_id);
 
+    // カテゴリーが一つもなければメッセージを表示
+    if (empty($categories))
+    {
+      Session::set_flash('success', 'まずはカテゴリーを作成しましょう。カテゴリーを作成後に登録できます。');
+    }
+
     // タスクを 'todo' と 'done' に振り分ける
     $grouped_tasks = [
       'todo' => [],

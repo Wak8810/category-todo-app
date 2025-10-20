@@ -2,37 +2,81 @@ function TaskViewModel(task) {
   let self = this;
   self.id = task.id;
   self.title = task.title;
+  self.category_id = task.category_id;
   self.category_color_code = task.category_color_code;
-
-  // 緩い比較で、1と'1'を見て、チェックを管理
   self.is_completed = ko.observable(task.is_completed == 1);
-  
   self.editUrl = '/tasks/edit/' + self.id;
+}
+
+function CategoryButtonViewModel(category, colorCode) {
+  let self = this;
+  self.id = category.id;
+  self.name = category.name;
+  self.colorCode = colorCode || '#cccccc'; // デフォルト色
+  self.isSelected = ko.observable(false);
+
+  self.toggle = function() {
+    self.isSelected(!self.isSelected());
+  };
 }
 
 function AppViewModel(initialData) {
   let self = this;
   
-  let mappedTodoTasks = initialData.todo_tasks.map(function(task) { return new TaskViewModel(task, self); });
-  let mappedDoneTasks = initialData.done_tasks.map(function(task) { return new TaskViewModel(task, self); });
+  const allTasksRaw = initialData.todo_tasks.concat(initialData.done_tasks);
+  self.allTasks = ko.observableArray(allTasksRaw.map(task => new TaskViewModel(task)));
 
-  self.todoTasks = ko.observableArray(mappedTodoTasks);
-  self.doneTasks = ko.observableArray(mappedDoneTasks);
+  const categoryColorMap = allTasksRaw.reduce((map, task) => {
+    if (task.category_id && task.category_color_code) {
+      map[task.category_id] = task.category_color_code;
+    }
+    return map;
+  }, {});
+
+  self.categoryButtons = ko.observableArray(
+    initialData.categories.map(cat => new CategoryButtonViewModel(cat, categoryColorMap[cat.id]))
+  );
+
+  self.selectedCategoryIds = ko.computed(function() {
+    return self.categoryButtons()
+      .filter(button => button.isSelected())
+      .map(button => String(button.id));
+  });
+
+  self.isCategoryFilterVisible = ko.observable(false);
+
+  self.toggleCategoryFilter = function() {
+    self.isCategoryFilterVisible(!self.isCategoryFilterVisible());
+  };
+
+  self.todoTasks = ko.computed(function() {
+    const selectedIds = self.selectedCategoryIds();
+    return self.allTasks().filter(function(task) {
+      const isTodo = !task.is_completed();
+      if (selectedIds.length === 0) {
+        return isTodo;
+      }
+      const isInCategory = selectedIds.includes(String(task.category_id));
+      return isTodo && isInCategory;
+    });
+  });
+
+  self.doneTasks = ko.computed(function() {
+    const selectedIds = self.selectedCategoryIds();
+    return self.allTasks().filter(function(task) {
+      const isDone = task.is_completed();
+      if (selectedIds.length === 0) {
+        return isDone;
+      }
+      const isInCategory = selectedIds.includes(String(task.category_id));
+      return isDone && isInCategory;
+    });
+  });
 
   self.toggleTask = function(task) {
-    let originalStatus = task.is_completed();
+    const originalStatus = task.is_completed();
+    task.is_completed(!originalStatus);
 
-    if (self.todoTasks.indexOf(task) > -1) {
-      self.todoTasks.remove(task);
-      self.doneTasks.unshift(task);
-      task.is_completed(true);
-    } else {
-      self.doneTasks.remove(task);
-      self.todoTasks.unshift(task);
-      task.is_completed(false);
-    }
-
-    // API通信とエラー時の差し戻し処理
     const csrfToken = document.querySelector('input[name="fuel_csrf_token"]').value;
 
     fetch('/api/tasks/toggle/' + task.id, {
@@ -42,7 +86,6 @@ function AppViewModel(initialData) {
         'X-Requested-With': 'XMLHttpRequest',
         'Accept': 'application/json'
       },
-      //CSRF対策
       body: 'fuel_csrf_token=' + encodeURIComponent(csrfToken)
     })
     .then(function(response) {
@@ -58,20 +101,9 @@ function AppViewModel(initialData) {
     })
     .catch(function(error) {
       console.error('Error toggling task:', error);
-      // Doneに移動後
-      if (task.is_completed()) { 
-        self.doneTasks.remove(task);
-        self.todoTasks.unshift(task);
-      // Todoに移動後
-      } else { 
-        self.todoTasks.remove(task);
-        self.doneTasks.unshift(task);
-      }
       task.is_completed(originalStatus);
-      alert('エラーが発生しました。もう一度お試しください。');
+      alert('エラーが発生しました: ' + error.message);
     });
-
-    return true;
   };
 }
 
@@ -80,7 +112,8 @@ document.addEventListener('DOMContentLoaded', function () {
   if (taskAppElement) {
     const initialData = {
       todo_tasks: JSON.parse(taskAppElement.getAttribute('data-todo-tasks') || '[]'),
-      done_tasks: JSON.parse(taskAppElement.getAttribute('data-done-tasks') || '[]')
+      done_tasks: JSON.parse(taskAppElement.getAttribute('data-done-tasks') || '[]'),
+      categories: JSON.parse(taskAppElement.getAttribute('data-categories') || '[]')
     };
     ko.applyBindings(new AppViewModel(initialData), taskAppElement);
   }

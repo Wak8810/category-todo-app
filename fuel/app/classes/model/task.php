@@ -136,4 +136,25 @@ class Task extends \Fuel\Core\Model
 
     return ($result > 0);
   }
+
+  /**
+   * カテゴリーIDに基づいてタスクを論理削除
+   *
+   * @param int $category_id カテゴリーID
+   * @param int $user_id ユーザーID
+   * @return int 影響を受けた行数
+   */
+  public static function delete_by_category_id($category_id, $user_id)
+  {
+    $query_data = [
+      'deleted_at' => Date::forge()->format('mysql')
+    ];
+
+    $result = DB::update('tasks')->set($query_data)
+      ->where('category_id', $category_id)
+      ->and_where('user_id', $user_id)
+      ->execute();
+
+    return $result;
+  }
 }

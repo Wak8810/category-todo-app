@@ -98,6 +98,9 @@ function AppViewModel(initialData) {
       if (data.status !== 'ok') {
         throw new Error(data.message || 'Server error');
       }
+      if (data.new_csrf_token) {
+        document.querySelector('input[name="fuel_csrf_token"]').value = data.new_csrf_token;
+      }
     })
     .catch(function(error) {
       console.error('Error toggling task:', error);

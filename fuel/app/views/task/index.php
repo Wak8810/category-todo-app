@@ -2,7 +2,6 @@
 use Fuel\Core\Arr;
 use Fuel\Core\Asset;
 use Fuel\Core\Form;
-use Fuel\Core\Input;
 use Fuel\Core\Uri;
 use Fuel\Core\View;
 ?>
@@ -48,7 +47,7 @@ use Fuel\Core\View;
             </div>
             <div class="mr-12">
               <label for="category_id" class="d-block mb-8 font-weight-600">カテゴリー</label>
-              <select name="category_id" id="category_id" class="p-y-10 p-x-20 rounded-6 border border-gray-medium" style="height: 42px;"
+              <select name="category_id" id="category_id" class="p-y-10 p-x-20 rounded-6 border border-gray-medium h-42px"
                       data-bind="value: selectedCategoryId">
                 <?php foreach ($categories as $category): ?>
                   <option value="<?php echo $category['id']; ?>" <?php echo Arr::get($inputs, 'category_id') == $category['id'] ? 'selected' : ''; ?>><?php echo e($category['short_name']); ?></option>
@@ -56,7 +55,7 @@ use Fuel\Core\View;
               </select>
             </div>
             <div>
-              <button type="submit" class="p-y-10 p-x-25 rounded-6 border-none bg-blue text-white font-weight-bold cursor-pointer" style="height: 42px;"
+              <button type="submit" class="p-y-10 p-x-25 rounded-6 border-none bg-blue text-white font-weight-bold cursor-pointer h-42px"
                       data-bind="enable: isFormValid">作成</button>
             </div>
           </form>

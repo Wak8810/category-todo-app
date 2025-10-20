@@ -8,7 +8,7 @@ use Fuel\Core\Form;
   <span>TODOAPP</span>
   <?php if (Auth::check()): ?>
     <div>
-      <span class="font-size-sm" style="margin-right: 20px;">ユーザー名：<?php echo e(Session::get('username')); ?></span>
+      <span class="font-size-sm mr-20">ユーザー名：<?php echo e(Session::get('username')); ?></span>
       <form action="<?php echo Uri::create('logout'); ?>" method="post" class="d-inline">
         <?php echo Form::csrf(); ?>
         <button type="submit" class="bg-none border-none p-0 cursor-pointer font-size-sm text-dark-gray text-decoration-none">ログアウト</button>

@@ -47,6 +47,9 @@ body, html {
 .mt-10 { margin-top: 10px; }
 .mt-30 { margin-top: 30px; }
 .mb-8 { margin-bottom: 8px; }
+.mb-10 { margin-bottom: 10px; }
+.mb-12 { margin-bottom: 12px; }
+.mb-15 { margin-bottom: 15px; }
 .mb-20 { margin-bottom: 20px; }
 .mb-25 { margin-bottom: 25px; }
 .mb-30 { margin-bottom: 30px; }
@@ -54,6 +57,7 @@ body, html {
 .ml-10 { margin-left: 10px; }
 .mr-10 { margin-right: 10px; }
 .mr-12 { margin-right: 12px; }
+.mr-15 { margin-right: 15px; }
 
 .p-0 { padding: 0; }
 .p-15 { padding: 15px; }

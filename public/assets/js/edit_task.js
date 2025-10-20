@@ -1,5 +1,5 @@
 function TaskViewModel(task) {
-  let self = this;
+  const self = this;
 
   self.id = task.id;
   self.title = ko.observable(task.title);
@@ -19,22 +19,22 @@ function TaskViewModel(task) {
     return !self.titleError();
   });
 
-  self.updateUrl = ko.pureComputed(function() {
-    return '/tasks/update/' + self.id;
-  });
+  self.updateUrl = '/tasks/update/' + self.id;
 }
 
 document.addEventListener('DOMContentLoaded', function() {
   const view = document.getElementById('edit-task-view');
-  if (view) {
-    const taskDataString = view.getAttribute('data-task');
-    if (taskDataString) {
-      try {
-        const taskData = JSON.parse(taskDataString);
-        ko.applyBindings(new TaskViewModel(taskData), view);
-      } catch (e) {
-        console.error("Failed to parse task data:", e);
-      }
-    }
+  if (!view) {
+    return;
+  }
+  const taskDataString = view.getAttribute('data-task');
+  if (!taskDataString) {
+    return;
+  }
+  try {
+    const taskData = JSON.parse(taskDataString);
+    ko.applyBindings(new TaskViewModel(taskData), view);
+  } catch (e) {
+    console.error("Failed to parse task data:", e);
   }
 });

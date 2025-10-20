@@ -1,5 +1,5 @@
 function CategoryViewModel(category) {
-  let self = this;
+  const self = this;
 
   self.id = category.id;
   self.name = ko.observable(category.name);
@@ -16,7 +16,7 @@ function CategoryViewModel(category) {
   });
 
   self.colorCodeError = ko.computed(function() {
-    let colorRegex = /^#[0-9a-fA-F]{6}$/;
+    const colorRegex = /^#[0-9a-fA-F]{6}$/;
     if (!colorRegex.test(self.colorCode())) {
       return 'カラーコードの形式が正しくありません。';
     }
@@ -30,22 +30,22 @@ function CategoryViewModel(category) {
     return !self.nameError() && !self.colorCodeError();
   });
 
-  self.updateUrl = ko.pureComputed(function() {
-    return '/categories/update/' + self.id;
-  });
+  self.updateUrl = '/categories/update/' + self.id;
 }
 
 document.addEventListener('DOMContentLoaded', function() {
   const view = document.getElementById('edit-category-view');
-  if (view) {
-    const categoryDataString = view.getAttribute('data-category');
-    if (categoryDataString) {
-      try {
-        const categoryData = JSON.parse(categoryDataString);
-        ko.applyBindings(new CategoryViewModel(categoryData), view);
-      } catch (e) {
-        console.error("Failed to parse category data:", e);
-      }
-    }
+  if (!view) {
+    return;
+  }
+  const categoryDataString = view.getAttribute('data-category');
+  if (!categoryDataString) {
+    return;
+  }
+  try {
+    const categoryData = JSON.parse(categoryDataString);
+    ko.applyBindings(new CategoryViewModel(categoryData), view);
+  } catch (e) {
+    console.error("Failed to parse category data:", e);
   }
 });

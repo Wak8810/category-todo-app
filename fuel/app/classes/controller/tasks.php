@@ -121,28 +121,27 @@ class Controller_Tasks extends \Fuel\Core\Controller
       $errors['category_id'] = '指定されたカテゴリーは存在しません。';
     }
 
-    if (empty($errors))
-    {
-      $data = [
-        'user_id' => $this->user_id,
-        'title' => e($title),
-        'category_id' => $category_id,
-      ];
-      $new_id = Task::create_task($data);
-
-      if ($new_id !== false)
-      {
-        Session::set_flash('success', 'タスクを作成しました。');
-      }
-      else
-      {
-        Session::set_flash('error', 'タスクの作成に失敗しました。');
-      }
-    }
-    else
+    if (!empty($errors))
     {
       Session::set_flash('errors', $errors);
       Session::set_flash('form_inputs', Input::post());
+      Response::redirect('tasks');
+    }
+
+    $data = [
+      'user_id' => $this->user_id,
+      'title' => e($title),
+      'category_id' => $category_id,
+    ];
+    $new_id = Task::create_task($data);
+
+    if ($new_id !== false)
+    {
+      Session::set_flash('success', 'タスクを作成しました。');
+    }
+    else
+    {
+      Session::set_flash('error', 'タスクの作成に失敗しました。');
     }
     
     Response::redirect('tasks');
@@ -188,28 +187,31 @@ class Controller_Tasks extends \Fuel\Core\Controller
       $errors['category_id'] = '指定されたカテゴリーは存在しません。';
     }
 
-    if (empty($errors))
+    if (!empty($errors))
     {
-      $data = [
-        'title' => e($title),
-        'category_id' => $category_id,
-      ];
-      $success = Task::update_task($id, $this->user_id, $data);
-
-      if ($success)
-      {
-        Session::set_flash('success', 'タスクを更新しました。');
-        Response::redirect('tasks');
-      }
-      else
-      {
-        $errors['update'] = 'タスクの更新に失敗しました。';
-      }
+      Session::set_flash('errors', $errors);
+      Session::set_flash('form_inputs', Input::post());
+      Response::redirect('tasks/edit/' . $id);
     }
 
-    Session::set_flash('errors', $errors);
-    Session::set_flash('form_inputs', Input::post());
-    Response::redirect('tasks/edit/' . $id);
+    $data = [
+      'title' => e($title),
+      'category_id' => $category_id,
+    ];
+    $success = Task::update_task($id, $this->user_id, $data);
+
+    if ($success)
+    {
+      Session::set_flash('success', 'タスクを更新しました。');
+      Response::redirect('tasks');
+    }
+    else
+    {
+      $errors['update'] = 'タスクの更新に失敗しました。';
+      Session::set_flash('errors', $errors);
+      Session::set_flash('form_inputs', Input::post());
+      Response::redirect('tasks/edit/' . $id);
+    }
   }
 
   /**
@@ -227,20 +229,18 @@ class Controller_Tasks extends \Fuel\Core\Controller
     if (!$task)
     {
       Session::set_flash('error', '指定されたタスクは見つかりません。');
+      Response::redirect('tasks'); // 早期リターン
+    }
+    
+    $success = Task::delete_task($id, $this->user_id);
+    if ($success)
+    {
+      Session::set_flash('success', 'タスクを削除しました。');
     }
     else
     {
-      $success = Task::delete_task($id, $this->user_id);
-      if ($success)
-      {
-        Session::set_flash('success', 'タスクを削除しました。');
-      }
-      else
-      {
-        Session::set_flash('error', 'タスクの削除に失敗しました。');
-      }
+      Session::set_flash('error', 'タスクの削除に失敗しました。');
     }
-
     Response::redirect('tasks');
-  }
+  }   
 }

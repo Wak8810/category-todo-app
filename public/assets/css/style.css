@@ -133,4 +133,5 @@ body, html {
 
 /* --- その他 --- */
 .shadow-md { box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); }
+.shadow-inner { box-shadow: inset 0 2px 4px rgba(0,0,0,0.06); }
 .cursor-pointer { cursor: pointer; }

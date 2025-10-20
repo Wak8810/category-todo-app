@@ -17,7 +17,7 @@ class Task extends \Fuel\Core\Model
    * @param int|null $category_id カテゴリーID (任意)
    * @return array タスクの配列
    */
-  public static function find_by_user_id($user_id, $category_id = null)
+  public static function find_by_user_id($user_id)
   {
     $query = DB::select(
       'tasks.*',
@@ -28,10 +28,6 @@ class Task extends \Fuel\Core\Model
       ->join('categories', 'LEFT')->on('tasks.category_id', '=', 'categories.id')
       ->where('tasks.user_id', $user_id)
       ->and_where('tasks.deleted_at', 'is', null);
-
-    if ($category_id !== null) {
-      $query->and_where('tasks.category_id', $category_id);
-    }
 
     return $query->order_by('created_at', 'desc')->execute()->as_array();
   }

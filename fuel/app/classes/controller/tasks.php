@@ -119,7 +119,7 @@ class Controller_Tasks extends Controller
     {
       $data = [
         'user_id' => $this->user_id,
-        'title' => $title,
+        'title' => e($title),
         'category_id' => $category_id,
       ];
       $new_id = Task::create_task($data);
@@ -185,7 +185,7 @@ class Controller_Tasks extends Controller
     if (empty($errors))
     {
       $data = [
-        'title' => $title,
+        'title' => e($title),
         'category_id' => $category_id,
       ];
       $success = Task::update_task($id, $this->user_id, $data);

@@ -98,7 +98,7 @@ class Controller_Categories extends Controller
 
     if (empty($errors))
     {
-      $new_id = Category::create_category($this->user_id, $name, $color_code);
+      $new_id = Category::create_category($this->user_id, e($name), $color_code);
       if ($new_id !== false)
       {
         Session::set_flash('success', 'カテゴリーの作成に成功しました。');
@@ -170,7 +170,7 @@ class Controller_Categories extends Controller
 
     if (empty($errors))
     {
-      $success = Category::update_category($id, $this->user_id, $name, $color_code);
+      $success = Category::update_category($id, $this->user_id, e($name), $color_code);
       if ($success)
       {
         Session::set_flash('success', 'カテゴリーを更新しました。');

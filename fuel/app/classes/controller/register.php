@@ -103,8 +103,8 @@ class Controller_Register extends \Fuel\Core\Controller
     // エラー配列が空かどうかで処理を分岐
     if (empty($errors))
     {
-      // バリデーション成功：ユーザー作成処理
-      $user_id = User::create($username, $email, $password);
+      // バリデーション成功：DB保存直前にサニタイズ
+      $user_id = User::create(e($username), e($email), $password);
 
       if ($user_id)
       {

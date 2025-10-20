@@ -17,8 +17,7 @@ use Fuel\Core\View;
       $inputs = isset($form_inputs) ? $form_inputs : [];
     ?>
     <div id="edit-category-view" class="max-w-600 m-x-auto mt-30 p-20 bg-white rounded-8 shadow-md"
-         data-initial-name="<?php echo e(Arr::get($inputs, 'name', $category['name'])); ?>"
-         data-initial-color-code="<?php echo e(Arr::get($inputs, 'color_code', $category['color_code'])); ?>">
+         data-category='<?php echo json_encode($category, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT); ?>'>
       <h2 class="mb-20 font-size-xl mt-30">カテゴリー編集</h2>
 
       <?php echo View::forge('partials/flash'); ?>

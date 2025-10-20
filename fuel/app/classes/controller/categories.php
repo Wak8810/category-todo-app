@@ -1,7 +1,6 @@
 <?php
 
 use Auth\Auth;
-use Fuel\Core\Controller;
 use Fuel\Core\Input;
 use Fuel\Core\Response;
 use Fuel\Core\Security;
@@ -9,7 +8,7 @@ use Fuel\Core\Session;
 use Fuel\Core\View;
 use Model\Category;
 
-class Controller_Categories extends Controller
+class Controller_Categories extends \Fuel\Core\Controller
 {
   public $user_id;
 
@@ -30,8 +29,15 @@ class Controller_Categories extends Controller
   public function action_index()
   {
     $categories = Category::find_by_user_id($this->user_id);
+
+    $display_categories = [];
+    foreach ($categories as $category) {
+      $category['display_name'] = mb_strlen($category['name']) > 60 ? mb_substr($category['name'], 0, 60) . '...' : $category['name'];
+      $display_categories[] = $category;
+    }
+
     $view = View::forge('category/index');
-    $view->set('categories', $categories);
+    $view->set('categories', $display_categories);
     $view->set('form_inputs', Session::get_flash('form_inputs', []));
     return $view;
   }

@@ -43,13 +43,9 @@ use Fuel\Core\View;
             </div>
             <div class="mr-12">
               <label for="category_id" class="d-block mb-8 font-weight-600">カテゴリー</label>
-              <select name="category_id" id="category_id" 
-                class="p-y-10 p-x-20 rounded-6 border border-gray-medium" style="height: 42px;">
+              <select name="category_id" id="category_id" class="p-y-10 p-x-20 rounded-6 border border-gray-medium" style="height: 42px;">
                 <?php foreach ($categories as $category): ?>
-                  <option value="<?php echo $category['id']; ?>" 
-                    <?php echo Arr::get($inputs, 'category_id') == $category['id'] ? 'selected' : ''; ?>>
-                    <?php echo e($category['name']); ?>
-                  </option>
+                  <option value="<?php echo $category['id']; ?>" <?php echo Arr::get($inputs, 'category_id') == $category['id'] ? 'selected' : ''; ?>><?php echo e($category['short_name']); ?></option>
                 <?php endforeach; ?>
               </select>
             </div>
@@ -74,7 +70,7 @@ use Fuel\Core\View;
             <div data-bind="visible: isCategoryFilterVisible">
               <div class="d-flex flex-wrap" data-bind="foreach: categoryButtons">
                 <button class="p-y-8 p-x-15 rounded-25 border-none cursor-pointer mr-10 mb-10" 
-                  data-bind="click: toggle, style: { backgroundColor: colorCode, opacity: isSelected() ? 0.8 : 0.3 }, text: name">
+                  data-bind="click: toggle, style: { backgroundColor: colorCode, opacity: isSelected() ? 1 : 0.6 }, text: shortName, attr: { title: name }">
                 </button>
               </div>
             </div>

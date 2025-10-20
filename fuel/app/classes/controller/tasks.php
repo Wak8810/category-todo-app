@@ -1,7 +1,6 @@
 <?php
 
 use Auth\Auth;
-use Fuel\Core\Controller;
 use Fuel\Core\Input;
 use Fuel\Core\Response;
 use Fuel\Core\Security;
@@ -10,7 +9,7 @@ use Fuel\Core\View;
 use Model\Task;
 use Model\Category;
 
-class Controller_Tasks extends Controller
+class Controller_Tasks extends \Fuel\Core\Controller
 {
   public $user_id;
 
@@ -33,6 +32,12 @@ class Controller_Tasks extends Controller
     $tasks = Task::find_by_user_id($this->user_id);
     $categories = Category::find_by_user_id($this->user_id);
 
+    $display_categories = [];
+    foreach ($categories as $category) {
+      $category['short_name'] = mb_strlen($category['name']) > 10 ? mb_substr($category['name'], 0, 10) . '...' : $category['name'];
+      $display_categories[] = $category;
+    }
+
     if (empty($categories))
     {
       Session::set_flash('success', 'まずはカテゴリーを作成しましょう。カテゴリーを作成後に登録できます。');
@@ -53,7 +58,7 @@ class Controller_Tasks extends Controller
     $view = View::forge('task/index');
     $view->set('todo_tasks', $grouped_tasks['todo']);
     $view->set('done_tasks', $grouped_tasks['done']);
-    $view->set('categories', $categories);
+    $view->set('categories', $display_categories);
     $view->set('form_inputs', Session::get_flash('form_inputs', []));
     
     return $view;

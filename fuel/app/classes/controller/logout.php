@@ -1,11 +1,10 @@
 <?php
 
-use Fuel\Core\Controller;
 use Fuel\Core\Response;
 use Fuel\Core\Session;
 use Auth\Auth;
 
-class Controller_Logout extends Controller
+class Controller_Logout extends \Fuel\Core\Controller
 {
   /**
    * GET /logout

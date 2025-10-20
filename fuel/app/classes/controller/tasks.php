@@ -29,9 +29,7 @@ class Controller_Tasks extends Controller
    */
   public function action_index()
   {
-    $category_id = Input::get('category_id', null);
-
-    $tasks = Task::find_by_user_id($this->user_id, $category_id);
+    $tasks = Task::find_by_user_id($this->user_id);
     $categories = Category::find_by_user_id($this->user_id);
 
     // タスクを 'todo' と 'done' に振り分ける
